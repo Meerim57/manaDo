@@ -1,0 +1,42 @@
+<div class="main">
+    <div class="login-panel">
+        <div class="content">
+            <div>
+                <h3 class="title">Войдите в аккаунт</h3>
+                <p class="subtitle-log">Нет аккаунта? <a data-panel=".panel-signup" routerLink="/sign-up">Зарегистрируйтесь</a></p>
+            </div>
+            <div>
+                <div>
+                    <form name="loginForm" action="#" method="POST">
+                        <div>
+                            <input class="input-field" type="email" [(ngModel)]="loginObj.emailId" name="emailId" required
+                                placeholder="Почта">
+                        </div>
+                        <div>
+                            <div>
+                                <span>
+                                    <input class="input-field" type="text" [(ngModel)]="loginObj.password" name="password"
+                                        placeholder="Пароль">
+                                </span>
+                            </div>
+                        </div>
+                        <div class="underneath-block">
+                            <!--<div class="center">
+                                    <input type="checkbox" value="remember-me">
+                                    <span class="rem-me">Запомнить меня</span>
+                            </div>
+                            <div class="center">
+                                <a data-panel=".panel-forgot">Забыли пароль?</a>
+                            </div>-->
+                        </div>
+                        <div>
+                            <button (click)="onLogin()" type="button" class="login-btn">
+                                Войти
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

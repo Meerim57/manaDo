@@ -1,0 +1,27 @@
+<div class="title-cont">
+    <a mat-icon-button routerLink="/board">
+        <mat-icon class="m-icon">keyboard_backspace</mat-icon>
+    </a>
+    <h1 class="panel-name">Профиль</h1>
+</div>
+<div class="avatar-cont">
+    <div class="avatar-background">
+        <img class="avatar-img" src="/assets/avatar.jpg" alt="your avatar">
+    </div>
+</div>
+<form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="personal-info-cont">
+    <div class="field-cont" *ngFor="let field of fields">
+      <div class="input-title">{{ field.label }}</div>
+      <input class="profile-inpt" [type]="field.type" [formControlName]="field.controlName">
+    </div>
+  
+    <div class="buttons-cont">
+      <button type="button" class="cancel-btn" (click)="onCancel()">
+        Отменить
+      </button>
+      <button type="submit" class="save-btn" [disabled]="!profileForm.valid">
+        Сохранить
+      </button>
+    </div>
+</form>
+  

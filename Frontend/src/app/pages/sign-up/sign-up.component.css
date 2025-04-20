@@ -1,0 +1,111 @@
+.main {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/assets/sign-up.jpg);
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+    .login-panel {
+        background-color: rgba(254, 254, 254, 0.493);
+        backdrop-filter: blur(15px);
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 35%;
+        height: 52%;
+
+        .content {
+            text-align: center;
+        }
+    }  
+}
+
+.title {
+    color: #1b263b;
+    font-weight: 500;
+    font-size: 24px;
+}
+
+.subtitle-log { 
+    color: #424242;
+    font-weight: 400;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+}
+
+.subtitle-log a {
+    color: #006bdde1;
+    text-decoration: underline;
+    transition: color 0.3s;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.subtitle-log a:hover {
+    color: #007bff;
+}
+
+.login-btn {
+    background-color: #003049;
+    cursor: pointer;
+    border: none;
+    color: white;
+    padding: 8px 48px;
+    font-weight: 500;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.login-btn:hover {
+    background-color: #004060;
+}
+
+.input-field {
+    width: 100%;
+    padding: 8px 16px;
+    margin-bottom: 8px;
+    border: 1px solid #e5e5e5;
+    border-radius: 5px;
+    font-size: 14px;
+    background-color: #ebebeb;
+    color: #333333;
+}
+
+.underneath-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.rem-me {
+    margin-left: 5px;
+}
+
+.center a {
+    color: #4f4f4f;
+    text-decoration: underline;
+    transition: color 0.3s;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.center a:hover {
+    color: #636363;
+}

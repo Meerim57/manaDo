@@ -1,0 +1,83 @@
+.nav-bar  {
+    background-color: #111d52!important;
+    color: #fff!important;
+    transition: background-color 0.3s;
+    width: 100%;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .nav-title {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 600;
+    }
+}
+
+.left-part,
+.right-part {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+
+.img-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    cursor: pointer;
+    background-color: white;
+
+    .avatar {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 50%;
+    }
+}
+
+.create-btn {
+    color: white;
+    background-color: #096acb;
+    padding: 4px 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.create-btn:hover {
+    background-color: #0b74dc;
+}
+
+.modal-cont { 
+    background-color: #ecf0f3 !important;
+}
+
+.cancel-btn,
+.createModal-btn {
+    color: white;
+    background-color: #00b68b;
+    border: none;
+    padding: 5px 20px;
+    margin-left: 10px;
+    border-radius: 5px;
+
+}
+
+.cancel-btn {
+    background-color: #ff2655;
+    margin-left: 10px;
+}
+
+.tickets-cont {
+    padding-top: 25px;
+    padding-bottom: 10px;
+    background-color: #ecf0f3;
+}
