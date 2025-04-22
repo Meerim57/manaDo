@@ -1,0 +1,112 @@
+<div class="nav-bar">
+    <div class="left-part">
+        <h1 class="nav-title">ManaDo</h1>
+        <button class="create-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">Создать</button>
+    </div>
+    <div class="right-part">
+        <div class="img-content" routerLink="/profile">
+            <img class="avatar" src="/assets/avatar.jpg" alt="your picture">
+        </div>
+    </div>
+</div>
+  
+<div class="tickets-cont">
+    <router-outlet></router-outlet>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <div class="modal-header d-flex ">
+                <div>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Create Issue</h1>
+                </div>
+                <div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="project-model">
+                                <label for="">Project <span class="text-danger">*</span></label>
+                                <select name="ticketObj" [(ngModel)]="ticketObj.projectId" id="" class="form-select mb-3">
+                                    <option *ngFor="let project of projectList" [value]="project.projectId">{{project.projectName}}</option> 
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <!-- <div class="col-4">
+                            <label for="">Issue Type<span class="text-danger">*</span></label>
+                            <select name="" [(ngModel)]="ticketObj.projectId" class="form-select">
+                                <option value="">
+                                    <i class="fa-solid fa-square-check" style="color: #7ea6ec;"></i>
+                                    Select</option>
+                                <option *ngFor="let type of issueTypes">{{type}}</option> 
+                            </select>
+                        </div> -->
+                        <div class="col-4">
+                            <label for="">Status <span><i class="fa fa-circle-info"></i></span></label>
+                            <select name="" [(ngModel)]="ticketObj.status" class="mb-1 form-select">
+                                <option *ngFor="let sta of status">{{sta}}</option> 
+                            </select>
+                        </div>
+                        <div class="col-12  mb-3">
+                            <label for="">Summary <span class="text-danger">*</span></label>
+                            <input type="text" name="summary" [(ngModel)]="ticketObj.summary" class="form-control inputbg">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label for="">Description</label>
+                            <textarea name="description" [(ngModel)]="ticketObj.description" cols="30" rows="5" class="form-control"></textarea>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label for="">Assignee</label>
+                            <select name="assignedTo" [(ngModel)]="ticketObj.assignedTo" class="mb-1 form-select">
+                                <option *ngFor="let user of userList" [value]="user.userId">{{user.fullName}}</option> 
+                            </select>
+                            <span><a href="" class="text-decoration-none fw-semibold">Assign to me</a></span>
+                        </div>
+
+                        <div class="col-6 mb-3">
+                            <label for="">Reporter</label>
+                            <select name="createdBy" [(ngModel)]="ticketObj.createdBy" class="mb-1 form-select">
+                                <option *ngFor="let user of userList" [value]="user.userId">{{user.fullName}}</option> 
+                            </select>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label for="">Attachment</label>
+                            <div class="border border-dotted text-center p-5">
+                              
+                                <span><i class="fa fa-cloud-arrow-up"></i>Drop files to attach or <a href="#"
+                                        class="text-decoration-none">
+                                        <label class="custom-file-upload">
+                                            <input type="file"   />
+                                            <i class="fa fa-cloud-arrow-up"></i>
+                                            browse
+                                          </label>
+                                        </a></span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+
+                <div>
+                    <input type="checkbox" name="" id=""><span>
+                        Create another issue</span>
+                </div>
+                <div>
+
+                    <button type="button" class="cancel-btn" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="createModal-btn" (click)="onTicketCreate()">Create</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

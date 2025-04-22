@@ -1,0 +1,21 @@
+<div class="main-wrapper">
+    <div class="profile-navbar">
+        <div class="main-fields">
+            <div class="panel" routerLink="./">Профиль</div>
+            <div class="panel" routerLink="team">Команда</div>
+        </div>
+        <div class="leave-cont">
+            <span class="leave">
+                Выйти 
+            </span>
+            <span class="icon-cont leave">
+                <mat-icon class="l-icon" routerLink="">logout</mat-icon>
+            </span>
+        </div>
+
+    </div>
+   
+    <div class="profile-main">
+        <router-outlet></router-outlet>
+    </div>
+</div>

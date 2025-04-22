@@ -1,0 +1,75 @@
+.avatar-cont {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+
+    .avatar-background {
+        width: 124px;
+        height: 124px;
+        background-color: #096acb;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .avatar-img {
+        max-width: 120px;
+        max-height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        object-position: center;
+    }
+}
+.personal-info-cont {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+
+    .field-cont {
+        .profile-inpt {
+            padding: 6px 10px;
+            width: 410px;
+            border: none;
+            border-radius: 5px;
+        }
+    }
+
+    .buttons-cont {
+        display: flex;
+        align-items: center;
+        justify-content: right;
+        width: 408px;
+        padding-top: 10px;
+        gap: 10px;
+
+        .save-btn,
+        .cancel-btn {
+            border: none;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+        }
+
+        .cancel-btn {
+            background-color: rgb(255, 74, 74);
+            transition: background-color 0.3s;
+        }
+        
+        .cancel-btn:hover {
+            background-color: rgb(255, 92, 92);
+        }
+
+        .save-btn {
+            background-color: #096acb;
+            transition: background-color 0.3s;
+        }
+        .save-btn:hover {
+            background-color: #1676d7;
+        }
+    }
+}

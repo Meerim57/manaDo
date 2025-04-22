@@ -1,0 +1,67 @@
+.main-wrapper {
+    height: 100%;
+    background-color: #ecf0f3;
+    font-size: 14px;
+    display: grid;
+    grid-template-columns: 130px 1fr;
+
+
+    .profile-navbar {
+        display: flex;
+        text-align: left;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 30px;
+        padding: 70px 55px 20px 15px;
+        background-color: white;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border-radius: 0 15px 15px 0;
+        color: #096acb;
+        font-weight: 500;
+        font-size: 15px;
+
+        .main-fields {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .leave-cont {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            color: rgb(221, 11, 11);
+
+            .leave {
+                cursor: pointer;
+            }
+
+            .icon-cont {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                .l-icon {
+                    font-size: 16px;
+                    width: 18px;
+                    height: 18px;
+                }
+            }
+        }
+
+        .panel {
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .panel:hover {
+            color: #0b79e8;
+        }
+       
+    }
+
+    .profile-main {
+        margin-top: 15px;
+    } 
+}

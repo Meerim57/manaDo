@@ -1,0 +1,35 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif !important;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.title-cont {
+    display: flex;
+    align-items: center;
+
+    .panel-name {
+        margin: 0 0 0 20px;
+        font-size: 18px;
+        font-weight: 600;
+        color: rgb(66, 66, 66);
+    }
+}
+
+a {
+    display: flex;
+    align-items: center;
+    color: inherit; 
+}
+
+.m-icon {
+    width: 20px;
+    height: 20px;
+    color: #096acb;
+    margin-left: 25px;
+}
