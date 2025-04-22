@@ -5,7 +5,7 @@ header("Access-Control-Allow-Methods: GET, POST");
 header("Access-Control-Allow-Headers: Content-Type");
 
 // Путь к вашей базе данных
-$dbPath = '/!!!LABS/DIPLOMBD/diplom.bd';
+$dbPath = '/!DIPLOMBD/diplom.bd';
 
 try {
     $pdo = new PDO("sqlite:$dbPath");
