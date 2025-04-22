@@ -1,0 +1,43 @@
+<div class="dialog-wrapper">
+  <div>
+    <div class="dialog-title">
+      <h1 class="main-title">Создать задачу</h1>
+      <button class="close-dialog-btn" type="button" (click)="close()">×</button>
+    </div>
+    <form class="main-info" [formGroup]="taskForm">
+      <div class="name-cont">
+        <label class="field-name">Название</label>
+        <input class="name-inpt" type="text" formControlName="name">
+      </div>
+      <div class="status-cont">
+        <label class="field-name">Статус <span><i class="fa fa-circle-info"></i></span></label>
+        <select class="drop-down" formControlName="status">
+          <option *ngFor="let status of statuses">{{ status }}</option>
+        </select>
+      </div>
+      <div class="description-cont">
+        <label class="field-name">Описание</label>
+        <textarea class="description-inpt" rows="5" formControlName="description"></textarea>
+      </div>
+      <div class="responsibilities-cont">
+        <div class="assignee-cont">
+          <label class="field-name">Назначить на:</label>
+          <select class="drop-down" formControlName="assignee">
+            <option></option>
+          </select>
+        </div>
+        <div class="reporter-cont">
+          <label class="field-name">От кого:</label>
+          <select class="drop-down" formControlName="reporter">
+            <option></option>
+          </select>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="actions-cont">
+    <button type="button" class="cancel-btn" (click)="cancel()">Отменить</button>
+    <button type="button" class="create-btn" (click)="create()">Создать</button>
+  </div>
+</div>
+  

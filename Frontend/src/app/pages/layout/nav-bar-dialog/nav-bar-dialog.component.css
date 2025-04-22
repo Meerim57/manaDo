@@ -1,0 +1,111 @@
+.dialog-wrapper {
+    background-color: white !important;
+    padding: 20px;
+    width: 700px;
+    height: 490px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .dialog-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .main-title {
+            margin: 0;
+            text-align: center;
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .close-dialog-btn {
+            background-color: white;
+            border: none;
+            font-size: 23px;
+            font-weight: 400;
+        }
+    }
+
+    .main-info {
+        margin-top: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+.status-cont,
+.name-cont,
+.assignee-cont, 
+.reporter-cont,
+.description-cont {
+    display: flex;
+    flex-direction: column;
+}
+
+.create-btn,
+.cancel-btn {
+    border: none;
+    padding: 4px 15px;
+    border-radius: 5px;
+    color: white;
+}
+
+.cancel-btn {
+    background-color: #ff2655;
+    transition: background-color 0.3s;
+}
+
+.cancel-btn:hover {
+    background-color: #ff3762;
+}
+
+.create-btn {
+    background-color: #096acb;
+    transition: background-color 0.3s;
+}
+
+.create-btn:hover {
+    background-color: #0b74dc;
+}
+
+.actions-cont {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: .5rem;
+}
+
+.description-inpt {
+    margin-top: 3px;
+    border: 1px solid rgb(171, 171, 171);
+    border-radius: 5px;
+    padding: 0 5px;
+}
+
+.name-inpt,
+.drop-down {
+    padding: 6px 5px;
+    margin-top: 3px;
+    border: 1px solid rgb(171, 171, 171);
+    border-radius: 5px;
+}
+
+.responsibilities-cont {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.assignee-cont,
+.reporter-cont {
+    width: 100%;
+}
+
+.field-name {
+    font-weight: 500;
+    font-size: 13px;
+    color: rgb(68, 68, 68);
+}

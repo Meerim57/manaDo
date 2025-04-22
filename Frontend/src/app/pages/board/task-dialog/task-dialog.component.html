@@ -1,0 +1,23 @@
+<div class="dialog-wrapper">
+    <div>
+        <h2 class="dialog-title">Информация о задаче</h2> 
+        <div class="dialog-content">
+            <div class="name-field">
+                <div class="field-title">Название</div>
+                <div class="field-data name">{{ data.name }}</div>
+            </div>
+            <div class="description-field">
+                <div class="field-title">Описание</div>
+                <div class="field-data">Задача состоит в том чтобы сделать ее так как нужно без лишних разговоров будьте добры</div>
+            </div>
+            <div class="fromWhom-field">
+                <div class="field-title">От кого</div>
+                <div class="field-data fromWhom">{{ data.fromWhom }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="dialog-actions">
+      <button class="close-btn" (click)="close()">Закрыть</button>
+    </div>
+</div>
+  

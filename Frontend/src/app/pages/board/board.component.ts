@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { MatDialog } from '@angular/material/dialog';
+import { TaskDialogComponent } from './task-dialog/task-dialog.component';
 
 @Component({
   selector: 'app-board',
@@ -7,6 +9,8 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
   styleUrls: ['./board.component.css']
 })
 export class BoardComponent implements OnInit {
+  private dialog = inject(MatDialog);
+
   columns = [
     {
       title: 'Новое',
@@ -16,7 +20,7 @@ export class BoardComponent implements OnInit {
       ]
     },
     {
-      title: 'В процессе',
+      title: 'В работе',
       tasks: [
         { name: 'Реализация авторизации', fromWhom: 'Александра Александровича'}
       ]
@@ -46,5 +50,12 @@ export class BoardComponent implements OnInit {
 
   ngOnInit() {
     this.connectedDropLists = this.columns.map((_, index) => 'list-' + index);
+  }
+
+  openTaskDialog(task: any) {
+    this.dialog.open(TaskDialogComponent, {
+      data: task,
+      panelClass: 'custom-dialog-panel'
+    });
   }
 }

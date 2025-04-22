@@ -4,7 +4,12 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST");
 header("Access-Control-Allow-Headers: Content-Type");
 
+<<<<<<< HEAD
 // Путь к вашей базе данных
+=======
+echo "ok";
+
+>>>>>>> 656497432fa15afc719ea71026663fca350b1b14
 $dbPath = '/!DIPLOMBD/diplom.bd';
 
 try {

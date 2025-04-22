@@ -8,7 +8,7 @@
         [cdkDropListConnectedTo]="connectedDropLists"
         (cdkDropListDropped)="drop($event)">
         <h3>{{ column.title }}</h3>
-        <div class="task" *ngFor="let task of column.tasks" cdkDrag>
+        <div class="task" *ngFor="let task of column.tasks" cdkDrag (click)="openTaskDialog(task)">
             <div class="task-name">
                 {{ task.name }}
             </div>
