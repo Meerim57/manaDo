@@ -16,6 +16,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TeamComponent } from './pages/profile/team/team.component';
 import { PersonInfoComponent } from './pages/profile/person-info/person-info.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { TaskDialogComponent } from './pages/board/task-dialog/task-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { NavBarDialogComponent } from './pages/layout/nav-bar-dialog/nav-bar-dialog.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     LoginComponent,
     LayoutComponent,
     UsersComponent,
-    SignUpComponent,
+    TaskDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +39,10 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     ProfileComponent,
     PersonInfoComponent,
     TeamComponent,
-    DragDropModule
+    DragDropModule,
+    MatDialogModule,
+    NavBarDialogComponent,
+    SignUpComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

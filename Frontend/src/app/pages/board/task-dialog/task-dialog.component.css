@@ -1,0 +1,63 @@
+.dialog-wrapper {
+    background-color: #f0f0f0 !important;
+    padding: 20px;
+    width: 500px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .dialog-title {
+        text-align: center;
+        font-size: 22px;
+        font-weight: 600;
+    }
+
+    .dialog-content {
+        margin-top: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .name-field {
+            font-size: 1;
+        }
+    }
+
+    .dialog-actions {
+        text-align: right;
+
+        .close-btn {
+            border: none;
+            color: white;
+            background-color: #ff2655;
+            border-radius: 5px;
+            padding: 3px 17px;
+            transition: background-color 0.3s;
+        }
+
+        .close-btn:hover {
+            background-color: #ff3762;
+        }
+    }
+}
+
+.field-title {
+    font-weight: 500;
+    font-size: 12px;
+    color: rgb(176, 176, 176);
+    margin-bottom: 3px;
+}
+
+.field-data {
+    padding-bottom: 18px;
+    border-bottom: 1px solid rgb(209, 209, 209);
+}
+
+.name {
+    font-size: 16px;
+}
+
+.fromWhom {
+    font-size: 13px;
+}

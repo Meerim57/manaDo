@@ -65,10 +65,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "jiraApp:build:production"
+              "browserTarget": "ManaDo:build:production"
             },
             "development": {
-              "browserTarget": "jiraApp:build:development"
+              "browserTarget": "ManaDo:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +76,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "jiraApp:build"
+            "browserTarget": "ManaDo:build"
           }
         },
         "test": {
