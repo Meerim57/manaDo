@@ -5,6 +5,7 @@
     flex-direction: column;
     
     .team-member {
+        cursor: pointer;
         display: flex;
         align-items: center;
         gap: 1.2rem;
