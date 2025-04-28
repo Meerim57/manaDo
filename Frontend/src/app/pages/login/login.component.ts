@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
 
-  /*loginObj: any = {
+  loginObj: any = {
     userId: 0,
     emailId: "",
     fullName: "",
@@ -23,5 +23,4 @@ export class LoginComponent {
   onLogin() {
    
   }
-*/
 }

@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8000/Backend/User/authorization.php';
+  private apiUrl = 'http://localhost:8000/Backend/User/_authorization.php';
 
   constructor(private http: HttpClient) { }
 
