@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { AuthService } from 'src/app/service/auth.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -8,7 +9,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
   styleUrls: ['./sign-up.component.css'],
   standalone: true,
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ]
 })
 export class SignUpComponent {
@@ -28,7 +30,7 @@ export class SignUpComponent {
   onSubmit(): void {
     if (this.signUpForm.valid) {
       const { email, password } = this.signUpForm.value;
-
+      console.log('in submit');
       this.authService.register(email, password).subscribe({
         next: (response) => {
           console.log('Регистрация успешна:', response);

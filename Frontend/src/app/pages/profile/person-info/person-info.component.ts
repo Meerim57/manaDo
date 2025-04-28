@@ -22,18 +22,18 @@ export class PersonInfoComponent {
   fields = [
     { label: 'Имя', controlName: 'firstName', type: 'text' },
     { label: 'Фамилия', controlName: 'lastName', type: 'text' },
-    { label: 'Отчество', controlName: 'middleName', type: 'text' },
     { label: 'Почта', controlName: 'email', type: 'email' },
-    { label: 'Род деятельности', controlName: 'occupation', type: 'text' }
+    { label: 'Должность', controlName: 'occupation', type: 'text' },
+    { label: 'Стэк', controlName: 'stack', type: 'text' }
   ];
 
   constructor(private fb: FormBuilder) {
     this.profileForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      middleName: [''],
       email: ['', [Validators.required, Validators.email]],
-      occupation: ['']
+      occupation: [''],
+      stack: ['']
     });
   }
 

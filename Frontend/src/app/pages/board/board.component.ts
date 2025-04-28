@@ -15,23 +15,32 @@ export class BoardComponent implements OnInit {
     {
       title: 'Новое',
       tasks: [
-        { name: 'Создать макет', fromWhom: 'Ивана Иванова'},
-        { name: 'Собрать требования', fromWhom: 'Андрея Андреева'}
+        { name: 'Создать макет', fromWhom: 'Ивана Иванова', expired: false},
+        { name: 'Собрать требования', fromWhom: 'Андрея Андреева', expired: false}
       ]
     },
     {
       title: 'В работе',
       tasks: [
-        { name: 'Реализация авторизации', fromWhom: 'Александра Александровича'}
+        { name: 'Реализация авторизации', fromWhom: 'Александра Александровича', expired: true}
       ]
     },
     {
-      title: 'Закончено',
+      title: 'Завершено',
+      isFinished: true,
       tasks: [
-        { name: 'Настроить окружение', fromWhom: 'Ивана Иванова'}
+        { name: 'Настроить окружение', fromWhom: 'Ивана Иванова', expired: false}
       ]
-    }
+    },
   ];
+
+  expiredTasks = {
+    title: 'Просроченное',
+    tasks: [
+      { name: 'Настроить окружение', fromWhom: 'Ивана Иванова'}
+    ]
+  }
+   
 
   connectedDropLists: string[] = [];
 

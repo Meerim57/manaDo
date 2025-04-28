@@ -8,7 +8,9 @@
         [cdkDropListConnectedTo]="connectedDropLists"
         (cdkDropListDropped)="drop($event)">
         <h3>{{ column.title }}</h3>
-        <div class="task" *ngFor="let task of column.tasks" cdkDrag (click)="openTaskDialog(task)">
+        <div class="task" *ngFor="let task of column.tasks" cdkDrag (click)="openTaskDialog(task)" 
+        [ngClass]="{'finished-task': column.isFinished}"
+        [cdkDragDisabled]="column.isFinished">
             <div class="task-name">
                 {{ task.name }}
             </div>
@@ -17,5 +19,15 @@
             </div>
         </div>
     </div>
+    <div class="column expired">
+        <h3 class="expired-title">{{ expiredTasks.title }}</h3>
+        <div class="expired-task" *ngFor="let expiredTask of expiredTasks.tasks" (click)="openTaskDialog(expiredTask)">
+            <div class="task-name">
+                {{ expiredTask.name }}
+            </div>
+            <div class="from-whom">
+                от {{ expiredTask?.fromWhom }}
+            </div>
+        </div>
+    </div>
 </div>
-
