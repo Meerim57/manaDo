@@ -1,197 +1,105 @@
 <?php
-ob_start();
+header("Access-Control-Allow-Origin: http://localhost:4200");
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Credentials: true");
+
+// Включение отображения ошибок для отладки
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Обработка preflight-запроса OPTIONS
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
 
 try {
-    $pdo = new PDO("/!DIPLOMBD/diplom.db");
+    // Подключение к SQLite базе данных
+    $dbPath = realpath(__DIR__ . '/../DIPLOMBD/diplom.db');
+    if (!is_writable($dbPath)) {
+        die(json_encode([
+            'error' => 'Database is not writable',
+            'db_path' => $dbPath
+        ]));
+    }
+    // Проверка существования файла БД
+    if (!file_exists($dbPath)) {
+        throw new Exception("Database file not found at: $dbPath");
+    }
+    
+    $pdo = new PDO("sqlite:$dbPath");
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
-    ob_end_clean();
-    http_response_code(500);
-    echo json_encode(['error' => 'Ошибка подключения к базе данных: ' . $e->getMessage()]);
-    exit;
-}
 
-switch ($_SERVER['REQUEST_METHOD']) {
-    case 'POST':
-        handlePostRequest($pdo);
-        break;
-    case 'GET':
-        handleGetRequest($pdo);
-        break;
-    default:
-        ob_end_clean();
-        http_response_code(405);
-        echo json_encode(['error' => 'Метод не разрешен']);
-        break;
-}
+    $method = $_SERVER['REQUEST_METHOD'];
+    $input = json_decode(file_get_contents('php://input'), true);
 
-function handlePostRequest($pdo) {
-    $json = file_get_contents('php://input');
-    $data = json_decode($json, true);
-    
-    if ($data === null) {
-        ob_end_clean();
-        http_response_code(400);
-        echo json_encode(['error' => 'Неверные данные JSON']);
-        return;
-    }
-    
-    if (!isset($data['email']) || !isset($data['password'])) {
-        ob_end_clean();
-        http_response_code(400);
-        echo json_encode(['error' => 'Email и пароль обязательны']);
-        return;
-    }
-    
-    $email = trim($data['email']);
-    $password = password_hash(trim($data['password']), PASSWORD_DEFAULT);
-
-    try {
-        // Проверяем, существует ли пользователь
-        $checkStmt = $pdo->prepare("SELECT id FROM [user/authorization] WHERE email = :email");
-        $checkStmt->execute(['email' => $email]);
-        
-        if ($checkStmt->fetch()) {
-            ob_end_clean();
+    if ($method === 'POST') {
+        // Валидация входных данных
+        if (empty($input['email']) || empty($input['password'])) {
             http_response_code(400);
-            echo json_encode(['error' => 'Пользователь с таким email уже существует']);
-            return;
+            die(json_encode(['error' => 'Email and password are required']));
         }
 
-        // Добавляем нового пользователя
-        $stmt = $pdo->prepare("INSERT INTO [user/authorization] (email, password) VALUES (:email, :password)");
-        $stmt->execute([
-            'email' => $email,
-            'password' => $password
-        ]);
+        $email = trim($input['email']);
+        $password = password_hash(trim($input['password']), PASSWORD_DEFAULT);
 
-        $userId = $pdo->lastInsertId();
-
-        // Создаем JWT токен
-        $issuedAt = time();
-        $expirationTime = $issuedAt + 3600; // Токен действителен 1 час
+        // Проверка существования пользователя
+        $stmt = $pdo->prepare("SELECT id FROM [user/authorization] WHERE email = ?");
+        $stmt->execute([$email]);
         
-        $payload = [
-            'iat' => $issuedAt,
-            'exp' => $expirationTime,
-            'user_id' => $userId,
-            'email' => $email
-        ];
+        if ($stmt->fetch()) {
+            http_response_code(400);
+            die(json_encode(['error' => 'User with this email already exists']));
+        }
 
-        $secretKey = "ваш_секретный_ключ";
-        $jwt = generateJWT($payload, $secretKey);
+        // Создание нового пользователя
+        $stmt = $pdo->prepare("INSERT INTO [user/authorization] (email, password) VALUES (?, ?)");
+        $stmt->execute([$email, $password]);
 
-        ob_end_clean();
+        // Успешный ответ
         http_response_code(201);
         echo json_encode([
-            'token' => $jwt,
-            'user' => [
-                'id' => $userId,
-                'email' => $email
-            ],
-            'message' => 'Пользователь успешно зарегистрирован'
+            'id' => $pdo->lastInsertId(),
+            'email' => $email,
+            'message' => 'User registered successfully'
         ]);
 
-    } catch (PDOException $e) {
-        ob_end_clean();
-        http_response_code(500);
-        echo json_encode(['error' => 'Ошибка базы данных: ' . $e->getMessage()]);
-    }
-}
-
-function handleGetRequest($pdo) {
-    $token = getBearerToken();
-    
-    if (!$token) {
-        ob_end_clean();
-        http_response_code(401);
-        echo json_encode(['error' => 'Токен не предоставлен']);
-        return;
-    }
-
-    try {
-        $secretKey = "ваш_секретный_ключ";
-        $payload = verifyJWT($token, $secretKey);
-        
-        if (!$payload) {
-            ob_end_clean();
-            http_response_code(401);
-            echo json_encode(['error' => 'Недействительный токен']);
-            return;
-        }
-
-        $stmt = $pdo->prepare("SELECT id, email FROM [user/authorization] WHERE id = :id");
-        $stmt->execute(['id' => $payload['user_id']]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        ob_end_clean();
-        if ($user) {
-            echo json_encode($user);
+    } elseif ($method === 'GET') {
+        // Обработка GET-запроса
+        if (isset($_GET['email'])) {
+            $email = $_GET['email'];
+            $stmt = $pdo->prepare("SELECT id, email FROM [user/authorization] WHERE email = ?");
+            $stmt->execute([$email]);
+        } elseif (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $stmt = $pdo->prepare("SELECT id, email FROM [user/authorization] WHERE id = ?");
+            $stmt->execute([$id]);
         } else {
-            http_response_code(404);
-            echo json_encode(['error' => 'Пользователь не найден']);
+            http_response_code(400);
+            die(json_encode(['error' => 'Email or ID parameter is required']));
         }
-    } catch (Exception $e) {
-        ob_end_clean();
-        http_response_code(500);
-        echo json_encode(['error' => 'Ошибка сервера: ' . $e->getMessage()]);
-    }
-}
 
-function generateJWT($payload, $secretKey) {
-    $header = json_encode(['typ' => 'JWT', 'alg' => 'HS256']);
-    $header = base64_encode($header);
-    
-    $payload = json_encode($payload);
-    $payload = base64_encode($payload);
-    
-    $signature = hash_hmac('sha256', "$header.$payload", $secretKey, true);
-    $signature = base64_encode($signature);
-    
-    return "$header.$payload.$signature";
-}
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        echo $user ? json_encode($user) : json_encode(['error' => 'User not found']);
+    } else {
+        http_response_code(405);
+        die(json_encode(['error' => 'Method not allowed']));
+    }
 
-function verifyJWT($token, $secretKey) {
-    $parts = explode('.', $token);
-    
-    if (count($parts) !== 3) {
-        return false;
-    }
-    
-    $header = base64_decode($parts[0]);
-    $payload = base64_decode($parts[1]);
-    $signature = $parts[2];
-    
-    $verifySignature = base64_encode(
-        hash_hmac('sha256', "$parts[0].$parts[1]", $secretKey, true)
-    );
-    
-    if ($signature !== $verifySignature) {
-        return false;
-    }
-    
-    $payload = json_decode($payload, true);
-    
-    if ($payload['exp'] < time()) {
-        return false;
-    }
-    
-    return $payload;
+} catch (PDOException $e) {
+    http_response_code(500);
+    die(json_encode([
+        'error' => 'Database error',
+        'details' => $e->getMessage(),
+        'db_path' => $dbPath
+    ]));
+} catch (Exception $e) {
+    http_response_code(500);
+    die(json_encode([
+        'error' => 'Server error',
+        'details' => $e->getMessage(),
+        'trace' => $e->getTraceAsString()
+    ]));
 }
-
-function getBearerToken() {
-    $headers = getallheaders();
-    if (isset($headers['Authorization'])) {
-        if (preg_match('/Bearer\s(\S+)/', $headers['Authorization'], $matches)) {
-            return $matches[1];
-        }
-    }
-    return null;
-}
-
-ob_end_flush();
-?>
