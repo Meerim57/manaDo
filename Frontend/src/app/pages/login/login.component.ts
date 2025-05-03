@@ -21,6 +21,6 @@ export class LoginComponent {
   }
 
   onLogin() {
-   
+   this.router.navigate(['/board']);
   }
 }

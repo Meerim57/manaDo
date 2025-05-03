@@ -18,10 +18,6 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
-
-        .name-field {
-            font-size: 1;
-        }
     }
 
     .dialog-actions {

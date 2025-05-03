@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule  } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -18,6 +18,7 @@ import { CommonModule } from '@angular/common';
 })
 export class PersonInfoComponent {
   profileForm: FormGroup;
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   fields = [
     { label: 'Имя', controlName: 'firstName', type: 'text' },
@@ -45,4 +46,16 @@ export class PersonInfoComponent {
   onCancel() {
     this.profileForm.reset();
   }
+
+  openFileInput(): void {
+    this.fileInput.nativeElement.click();
+  }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+        console.log('Selected file:', file);
+    }
+}
 }

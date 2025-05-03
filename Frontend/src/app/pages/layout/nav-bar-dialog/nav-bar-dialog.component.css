@@ -35,6 +35,7 @@
     }
 }
 
+.deadline-cont,
 .status-cont,
 .name-cont,
 .assignee-cont, 
@@ -84,6 +85,7 @@
     padding: 0 5px;
 }
 
+.deadline-inpt,
 .name-inpt,
 .drop-down {
     padding: 6px 5px;
@@ -100,7 +102,10 @@
 }
 
 .assignee-cont {
-    width: 100%;
+    width: 50%;
+}
+.deadline-cont {
+    width: 50%;
 }
 
 .field-name {

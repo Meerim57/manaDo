@@ -5,9 +5,26 @@
     <h1 class="panel-name">Профиль</h1>
 </div>
 <div class="avatar-cont">
-    <div class="avatar-background">
-        <img class="avatar-img" src="/assets/avatar.jpg" alt="your avatar">
-    </div>
+  <ng-container *ngIf="false">
+      <div class="avatar-background">
+          <img class="avatar-img" src="/assets/avatar.jpg" alt="your avatar">
+      </div>
+  </ng-container>
+  <ng-container *ngIf="true">
+      <div class="avatar-background" (click)="openFileInput()">
+        <img class="avatar-img" src="/assets/no-avatar.jpg" alt="your avatar">
+      </div>
+      <div>
+        Нажмите чтобы загрузить свое фото
+      </div>
+  </ng-container>
+  <input
+        type="file"
+        accept="image/*"
+        style="display: none;"
+        #fileInput
+        (change)="onFileSelected($event)"
+    />
 </div>
 <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="personal-info-cont">
     <div class="field-cont" *ngFor="let field of fields">

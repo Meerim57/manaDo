@@ -28,11 +28,11 @@ export class NavBarDialogComponent {
     private fb: FormBuilder
   ) {
     this.taskForm = this.fb.group({
-      name: [''],
-      status: [''],
-      description: [''],
-      assignee: [''],
-      reporter: ['']
+      name: '',
+      status: '',
+      description: '',
+      assignee: '',
+      deadline: ''
     });
   }
 
