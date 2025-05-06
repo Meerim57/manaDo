@@ -4,6 +4,7 @@
     justify-content: center;
     margin-top: 10px;
 
+    .default-avatar-background,
     .avatar-background {
         width: 124px;
         height: 124px;
@@ -12,6 +13,20 @@
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+
+    .default-avatar-background {
+        position: relative;
+    }
+    
+    .default-txt {
+        position: absolute;
+        font-size: 12px;
+        width: 120px;
+        text-align: center;
+        color: #096acb;
+        font-weight: 500;
+        cursor: pointer;
     }
 
     .avatar-img {
