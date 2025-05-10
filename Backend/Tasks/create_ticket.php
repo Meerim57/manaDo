@@ -32,10 +32,19 @@ try {
     switch($method) {
         case 'POST':
             // Создание новой задачи
-            $input = json_decode(file_get_contents('php://input'), true);
-            
+            $jsonInput = json_decode(file_get_contents('php://input'), true);
+    
+            // Если нет JSON-данных, берем из URL-параметров
+            $input = $jsonInput ?: [
+                'name' => $_POST['name'] ?? $_GET['name'] ?? null,
+                'status' => $_POST['status'] ?? $_GET['status'] ?? null,
+                'description' => $_POST['description'] ?? $_GET['description'] ?? null,
+                'assign_to' => $_POST['assign_to'] ?? $_GET['assign_to'] ?? null,
+                'deadline' => $_POST['deadline'] ?? $_GET['deadline'] ?? null
+            ];
+
             if (empty($input['name']) || empty($input['status']) || empty($input['description']) || 
-                empty($input['assign_to']) || empty($input['deadline'])) {
+                empty($input['assign_to'])) {
                 throw new Exception('Все поля обязательны для заполнения');
             }
 
