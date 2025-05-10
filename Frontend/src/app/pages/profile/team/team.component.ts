@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule  } from '@angular/router';
+import { UsersService } from 'src/app/service/users.service';
 
 @Component({
   selector: 'app-team',
@@ -12,6 +13,12 @@ import { RouterModule  } from '@angular/router';
     RouterModule
   ]
 })
-export class TeamComponent {
+export class TeamComponent implements OnInit {
+  usersService = inject(UsersService);
 
+  ngOnInit(): void {
+    this.usersService.getUsers().subscribe({
+      next: (users) => console.log(users)
+    })
+  }
 }

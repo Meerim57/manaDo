@@ -1,7 +1,16 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
+import { UsersService } from 'src/app/service/users.service';
+
+export interface Ticket {
+  name: string;
+  status: string;
+  description: string;
+  assignee: string;
+  deadline: string;
+}
 
 @Component({
   selector: 'app-nav-bar-dialog',
@@ -13,12 +22,15 @@ import { CommonModule } from '@angular/common';
     CommonModule
   ]
 })
-export class NavBarDialogComponent {
+export class NavBarDialogComponent implements OnInit {
+  userService = inject(UsersService);
   statuses = [
     'Новое',
     'В работе',
     'Закончено'
   ]
+
+  //teamMembers: string[];
 
   taskForm!: FormGroup;
 
@@ -36,6 +48,15 @@ export class NavBarDialogComponent {
     });
   }
 
+  ngOnInit(): void {
+    this.userService.getUsers().subscribe({
+      next: (users) => {
+        console.log(users);
+      },
+      error: () => console.log('error')
+    })
+  }
+
   close() {
     this.dialogRef.close();
   }
@@ -45,8 +66,17 @@ export class NavBarDialogComponent {
   }
 
   create(): void {
+    const createdTicket = {
+      name: this.taskForm.value.name,
+      status: this.taskForm.value.status,
+      description: this.taskForm.value.description,
+      assignee: this.taskForm.value.assignee,
+      deadline: this.taskForm.value.deadline,
+    }
+
+    console.log(createdTicket);
+
     if (this.taskForm.valid) {
-      console.log('Создана задача:', this.taskForm.value);
       this.close();
     }
   }

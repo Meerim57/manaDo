@@ -5,6 +5,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 interface User {
   id: number;
   email: string;
+  password: string;
 }
 
 interface RegisterResponse {
@@ -30,6 +31,12 @@ export class AuthService {
       { email, password },
       { headers: this.headers }
     ).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  login(): Observable<User> {
+    return this.http.get<User>(this.apiUrl).pipe(
       catchError(this.handleError)
     );
   }

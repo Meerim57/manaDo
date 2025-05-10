@@ -7,15 +7,15 @@
             </div>
             <div>
                 <div>
-                    <form name="loginForm" action="#" method="POST">
+                    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
                         <div>
-                            <input class="input-field" type="email" [(ngModel)]="loginObj.emailId" name="emailId" required
+                            <input class="input-field" type="email" formControlName="email"
                                 placeholder="Почта">
                         </div>
                         <div>
                             <div>
                                 <span>
-                                    <input class="input-field" type="text" [(ngModel)]="loginObj.password" name="password"
+                                    <input class="input-field" type="password" formControlName="password"
                                         placeholder="Пароль">
                                 </span>
                             </div>
@@ -23,7 +23,7 @@
                         <div class="underneath-block">
                         </div>
                         <div>
-                            <button (click)="onLogin()" type="button" class="login-btn">
+                            <button type="submit" class="login-btn">
                                 Войти
                             </button>
                         </div>

@@ -4,6 +4,14 @@ import { RouterModule  } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
+export interface UserInfo {
+  firstName: string,
+  lastName: string,
+  email: string,
+  occupation: string,
+  stack: string
+}
+
 @Component({
   selector: 'app-person-info',
   templateUrl: './person-info.component.html',
@@ -40,6 +48,15 @@ export class PersonInfoComponent {
 
   onSubmit() {
     if (this.profileForm.valid) {
+      const userInfo = {
+        firstName: this.profileForm.value.firstName,
+        lastName: this.profileForm.value.lastName,
+        email: this.profileForm.value.email,
+        occupation: this.profileForm.value.occupation,
+        stack: this.profileForm.value.stack
+      }
+
+      console.log(userInfo);
     }
   }
 

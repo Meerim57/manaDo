@@ -24,7 +24,6 @@ import { NavBarDialogComponent } from './pages/layout/nav-bar-dialog/nav-bar-dia
     AppComponent,
     ProjectsComponent,
     BoardComponent,
-    LoginComponent,
     LayoutComponent,
     UsersComponent,
     TaskDialogComponent
@@ -34,6 +33,7 @@ import { NavBarDialogComponent } from './pages/layout/nav-bar-dialog/nav-bar-dia
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    LoginComponent,
     BrowserAnimationsModule,
     ProfileComponent,
     PersonInfoComponent,

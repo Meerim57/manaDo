@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
 import { TaskDialogComponent } from './task-dialog/task-dialog.component';
+import { ticketCreated, ticketInfo, TicketService } from 'src/app/service/ticket.service';
 
 @Component({
   selector: 'app-board',
@@ -9,6 +10,7 @@ import { TaskDialogComponent } from './task-dialog/task-dialog.component';
   styleUrls: ['./board.component.css']
 })
 export class BoardComponent implements OnInit {
+  private ticketService = inject(TicketService);
   private dialog = inject(MatDialog);
 
   columns = [
@@ -59,6 +61,12 @@ export class BoardComponent implements OnInit {
 
   ngOnInit() {
     this.connectedDropLists = this.columns.map((_, index) => 'list-' + index);
+    this.ticketService.getTickets().subscribe({
+      next: (tickets: ticketInfo) => {
+        console.log(tickets)
+      },
+      error: () => console.log('error')
+    })
   }
 
   openTaskDialog(task: any) {
