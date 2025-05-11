@@ -11,7 +11,7 @@ export interface ticketCreated {
 
 export interface ticketInfo {
   status: string;       
-  task: Ticket[];  
+  tasks: Ticket[];  
 }
 
 @Injectable({
@@ -27,6 +27,7 @@ export class TicketService {
   constructor(private http: HttpClient) { }
 
   createTicket(ticket : Ticket): Observable<ticketCreated> {
+    console.log(ticket);
     return this.http.post<ticketCreated>(
       this.apiUrl, 
       { ticket },

@@ -1,32 +1,40 @@
 <div class="board">
-    <div
-        class="column"
-        *ngFor="let column of columns; let i = index"
-        cdkDropList
-        [id]="'list-' + i"
-        [cdkDropListData]="column.tasks"
-        [cdkDropListConnectedTo]="connectedDropLists"
-        (cdkDropListDropped)="drop($event)">
-        <h3>{{ column.title }}</h3>
-        <div class="task" *ngFor="let task of column.tasks" cdkDrag (click)="openTaskDialog(task)" 
-        [ngClass]="{'finished-task': column.isFinished}"
-        [cdkDragDisabled]="column.isFinished">
-            <div class="task-name">
-                {{ task.name }}
-            </div>
+    <div class="column" cdkDropList id="list-new" [cdkDropListData]="newTickets" [cdkDropListConnectedTo]="connectedDropLists" (cdkDropListDropped)="drop($event)">
+        <h3>Новое</h3>
+        <div class="task" *ngFor="let task of newTickets" cdkDrag (click)="openTaskDialog(task)">
+            <div class="task-name">{{ task.name }}</div>
             <div class="from-whom">
-                <span>от {{ task?.fromWhom }}</span><span class="expired-date">до 11.11.2011</span>
+                <span>от {{ task.assignee }}</span><span class="expired-date">до {{ task.deadline }}</span>
             </div>
         </div>
     </div>
-    <div class="column expired">
-        <h3 class="expired-title">{{ expiredTasks.title }}</h3>
-        <div class="expired-task" *ngFor="let expiredTask of expiredTasks.tasks" (click)="openTaskDialog(expiredTask)">
-            <div class="task-name">
-                {{ expiredTask.name }}
-            </div>
+
+    <div class="column" cdkDropList id="list-in-progress" [cdkDropListData]="inProgressTickets" [cdkDropListConnectedTo]="connectedDropLists" (cdkDropListDropped)="drop($event)">
+        <h3>В работе</h3>
+        <div class="task" *ngFor="let task of inProgressTickets" cdkDrag (click)="openTaskDialog(task)">
+            <div class="task-name">{{ task.name }}</div>
             <div class="from-whom">
-                <span>от {{ expiredTask?.fromWhom }}</span><span class="expired-date">до 11.11.2011</span>
+                <span>от {{ task.assignee }}</span><span class="expired-date">до {{ task.deadline }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="column" cdkDropList id="list-completed" [cdkDropListData]="completedTickets" [cdkDropListConnectedTo]="connectedDropLists" (cdkDropListDropped)="drop($event)">
+        <h3>Завершено</h3>
+        <div class="task" *ngFor="let task of completedTickets" cdkDrag (click)="openTaskDialog(task)" [cdkDragDisabled]="true">
+            <div class="task-name">{{ task.name }}</div>
+            <div class="from-whom">
+                <span>от {{ task.assignee }}</span><span class="expired-date">до {{ task.deadline }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="column expired" cdkDropList id="list-expired" [cdkDropListData]="expiredTickets" [cdkDropListConnectedTo]="connectedDropLists" (cdkDropListDropped)="drop($event)">
+        <h3 class="expired-title">Просроченное</h3>
+        <div class="expired-task" *ngFor="let expiredTask of expiredTickets" (click)="openTaskDialog(expiredTask)">
+            <div class="task-name">{{ expiredTask.name }}</div>
+            <div class="from-whom">
+                <span>от {{ expiredTask.assignee }}</span><span class="expired-date">до {{ expiredTask.deadline }}</span>
             </div>
         </div>
     </div>
