@@ -11,7 +11,7 @@ export interface userInfo {
 export interface TeamMember {
   id: number;              
   personData: {            
-    name: string;           
+    firstName: string;           
     lastName: string;      
     email: string;         
     position: string;     
