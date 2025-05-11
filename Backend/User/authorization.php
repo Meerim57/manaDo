@@ -83,7 +83,7 @@ try {
 
         // Создание нового пользователя
         $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $pdo->prepare("INSERT INTO [user/authorization] (email, password) VALUES (?, ?)");
+        $stmt = $pdo->prepare("INSERT INTO [user_authorization] (email, password) VALUES (?, ?)");
         $stmt->execute([$email, $passwordHash]);
         $stmt = $pdo->prepare("INSERT INTO [user_authorization] (email, password) VALUES (?, ?)");
         $stmt->execute([$email, $password]);

@@ -48,36 +48,10 @@ try {
         ];
     }
 
-    // Универсальный парсер входных данных
-    function getInputData() {
-        $jsonInput = json_decode(file_get_contents('php://input'), true);
-        
-        // Если есть JSON-данные, используем их
-        if ($jsonInput !== null) {
-            return $jsonInput;
-        }
-        
-        // Иначе собираем данные из всех возможных источников
-        return [
-            'name' => $_POST['name'] ?? $_GET['name'] ?? null,
-            'lastName' => $_POST['lastName'] ?? $_GET['lastName'] ?? null,
-            'email' => $_POST['email'] ?? $_GET['email'] ?? null,
-            'position' => $_POST['position'] ?? $_GET['position'] ?? null,
-            'stack' => $_POST['stack'] ?? $_GET['stack'] ?? null
-        ];
-    }
-
     switch($method) {
         case 'POST':
             $input = getInputData();
-            $input = getInputData();
             
-            // Валидация обязательных полей
-            $requiredFields = ['name', 'lastName', 'email', 'position', 'stack'];
-            foreach ($requiredFields as $field) {
-                if (empty($input[$field])) {
-                    throw new Exception("Поле '$field' обязательно для заполнения");
-                }
             // Валидация обязательных полей
             $requiredFields = ['name', 'lastName', 'email', 'position', 'stack'];
             foreach ($requiredFields as $field) {
@@ -100,22 +74,7 @@ try {
                 $decoded = json_decode($stack, true);
                 $stackString = ($decoded !== null) ? json_encode($decoded) : json_encode([$stack]);
             }
-            // Обработка stack (может быть строкой или массивом)
-            $stack = $input['stack'];
-            if (is_array($stack)) {
-                $stackString = json_encode($stack);
-            } else {
-                // Пытаемся декодировать, если это JSON-строка
-                $decoded = json_decode($stack, true);
-                $stackString = ($decoded !== null) ? json_encode($decoded) : json_encode([$stack]);
-            }
 
-            $stmt = $pdo->prepare("UPDATE users SET 
-                                name = :name, 
-                                lastName = :lastName,
-                                position = :position,
-                                stack = :stack
-                                WHERE email = :email");
             $stmt = $pdo->prepare("UPDATE users SET 
                                 name = :name, 
                                 lastName = :lastName,
@@ -135,13 +94,8 @@ try {
                 throw new Exception('Пользователь с указанным email не найден');
             }
 
-            if ($stmt->rowCount() === 0) {
-                throw new Exception('Пользователь с указанным email не найден');
-            }
-
             echo json_encode([
                 'status' => 'success',
-                'message' => 'Данные сотрудника успешно обновлены'
                 'message' => 'Данные сотрудника успешно обновлены'
             ]);
             break;
@@ -156,19 +110,7 @@ try {
                 
                 $teamMembers[] = [
                     'id' => $user['id'],
-            foreach ($users as $user) {
-                $stack = json_decode($user['stack'], true) ?? [];
-                
-                $teamMembers[] = [
-                    'id' => $user['id'],
                     'personData' => [
-                        'name' => $user['name'],
-                        'lastName' => $user['lastName'],
-                        'email' => $user['email'],
-                        'position' => $user['position'],
-                        'stack' => is_array($stack) ? $stack : [$stack]
-                    ]
-                ];
                         'name' => $user['name'],
                         'lastName' => $user['lastName'],
                         'email' => $user['email'],
