@@ -32,22 +32,37 @@ try {
     switch($method) {
         case 'POST':
             // Создание новой задачи
-            $jsonInput = json_decode(file_get_contents('php://input'), true);
-    
+            function getInputData() {
+                $jsonInput = json_decode(file_get_contents('php://input'), true);
+                
+                // Если есть JSON-данные, используем их
+                if ($jsonInput !== null) {
+                    // Проверяем, находятся ли данные внутри поля userInfo
+                    if (isset($jsonInput['ticket'])) {
+                        return [
+                            'name' => $jsonInput['ticket']['name'],
+                            'status' => $jsonInput['ticket']['status'], 
+                            'description' => $jsonInput['ticket']['description'],
+                            'assignee' => $jsonInput['ticket']['assignee'],
+                            'deadline' => $jsonInput['ticket']['deadline']
+                        ];
+                    }
+                    return $jsonInput;
+                }
+            }
+            $input = getInputData();
             // Если нет JSON-данных, берем из URL-параметров
-            $input = $jsonInput ?: [
+            /*$input = $jsonInput; /*?: [
                 'name' => $_POST['name'] ?? $_GET['name'] ?? null,
                 'status' => $_POST['status'] ?? $_GET['status'] ?? null,
                 'description' => $_POST['description'] ?? $_GET['description'] ?? null,
                 'assignee' => $_POST['assignee'] ?? $_GET['assignee'] ?? null,
                 'deadline' => $_POST['deadline'] ?? $_GET['deadline'] ?? null
-            ];
+            ];*/
 
-            if (empty($input['name']) || empty($input['status']) || empty($input['description']) || 
-                empty($input['assignee'])) {
+            /*if (empty($input['name']) || empty($input['status']) || empty($input['description'])) {
                 throw new Exception('Все поля обязательны для заполнения');
-            }
-
+            }*/
             $stmt = $pdo->prepare("INSERT INTO tasks (name, status, description, assignee, deadline) 
                                  VALUES (:name, :status, :description, :assignee, :deadline)");
             

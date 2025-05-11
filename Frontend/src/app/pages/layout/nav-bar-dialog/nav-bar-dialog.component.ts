@@ -56,7 +56,7 @@ export class NavBarDialogComponent implements OnInit {
     this.userService.getUsers().subscribe({
       next: (users) => {
         this.teamMember = users.teamMembers;
-        console.log(users);
+        console.log(users.teamMembers);
       },
       error: () => console.log('error')
     })
