@@ -77,7 +77,7 @@ try {
             echo json_encode([
                 'status' => 'success',
                 'message' => 'Задача успешно создана',
-                'task_id' => $pdo->lastInsertId()
+                'id' => $pdo->lastInsertId()
             ]);
             break;
 
@@ -96,7 +96,7 @@ try {
             // Обновление задачи
             $input = json_decode(file_get_contents('php://input'), true);
             
-            if (empty($input['task_id'])) {
+            if (empty($input['id'])) {
                 throw new Exception('ID задачи обязателен');
             }
 
@@ -125,8 +125,8 @@ try {
             }
 
             if (!empty($updateFields)) {
-                $params[':task_id'] = $input['task_id'];
-                $sql = "UPDATE tasks SET " . implode(", ", $updateFields) . " WHERE id = :task_id";
+                $params[':id'] = $input['id'];
+                $sql = "UPDATE tasks SET " . implode(", ", $updateFields) . " WHERE id = :id";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute($params);
 
