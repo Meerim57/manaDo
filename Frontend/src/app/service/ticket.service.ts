@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Ticket } from '../pages/layout/nav-bar-dialog/nav-bar-dialog.component';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, Observable, Subject, tap, throwError } from 'rxjs';
 
 export interface ticketCreated {
   status: string;       
@@ -24,6 +24,10 @@ export class TicketService {
     'Accept': 'application/json'
   });
 
+  private ticketsUpdated = new Subject<void>();
+
+  ticketsUpdated$ = this.ticketsUpdated.asObservable();
+
   constructor(private http: HttpClient) { }
 
   createTicket(ticket : Ticket): Observable<ticketCreated> {
@@ -34,6 +38,10 @@ export class TicketService {
       { headers: this.headers }
     ).pipe(
       catchError(this.handleError)
+    ).pipe(
+      tap(() => {
+        this.ticketsUpdated.next();
+      })
     );
   }
 

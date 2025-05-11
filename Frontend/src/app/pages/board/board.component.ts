@@ -22,6 +22,14 @@ export class BoardComponent implements OnInit {
   connectedDropLists: string[] = ['list-new', 'list-in-progress', 'list-completed', 'list-expired'];
 
   ngOnInit() {
+    this.loadTickets();
+
+    this.ticketService.ticketsUpdated$.subscribe(() => {
+      this.loadTickets();
+    });
+  }
+
+  private loadTickets() {
     this.ticketService.getTickets().subscribe({
       next: (tickets: ticketInfo) => {
         console.log(tickets);
