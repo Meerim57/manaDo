@@ -35,17 +35,27 @@ try {
         
         // Если есть JSON-данные, используем их
         if ($jsonInput !== null) {
+            // Проверяем, находятся ли данные внутри поля userInfo
+            if (isset($jsonInput['userInfo'])) {
+                return [
+                    'firstName' => $jsonInput['userInfo']['firstName'] ?? null,
+                    'lastName' => $jsonInput['userInfo']['lastName'] ?? null, 
+                    'email' => $jsonInput['userInfo']['email'] ?? null,
+                    'position' => $jsonInput['userInfo']['occupation'] ?? null,
+                    'stack' => $jsonInput['userInfo']['stack'] ?? null
+                ];
+            }
             return $jsonInput;
         }
         
         // Иначе собираем данные из всех возможных источников
-        return [
-            'name' => $_POST['name'] ?? $_GET['name'] ?? null,
+       /* return [
+            'firstName' => $_POST['firstName'] ?? $_GET['firstName'] ?? null,
             'lastName' => $_POST['lastName'] ?? $_GET['lastName'] ?? null,
             'email' => $_POST['email'] ?? $_GET['email'] ?? null,
             'position' => $_POST['position'] ?? $_GET['position'] ?? null,
             'stack' => $_POST['stack'] ?? $_GET['stack'] ?? null
-        ];
+        ];*/
     }
 
     switch($method) {
@@ -53,7 +63,7 @@ try {
             $input = getInputData();
             
             // Валидация обязательных полей
-            $requiredFields = ['name', 'lastName', 'email', 'position', 'stack'];
+            $requiredFields = ['firstName', 'lastName', 'email', 'position', 'stack'];
             foreach ($requiredFields as $field) {
                 if (empty($input[$field])) {
                     throw new Exception("Поле '$field' обязательно для заполнения");
@@ -75,15 +85,15 @@ try {
                 $stackString = ($decoded !== null) ? json_encode($decoded) : json_encode([$stack]);
             }
 
-            $stmt = $pdo->prepare("UPDATE users SET 
-                                name = :name, 
+            $stmt = $pdo->prepare("UPDATE user_authorization SET 
+                                firstName = :firstName, 
                                 lastName = :lastName,
                                 position = :position,
                                 stack = :stack
                                 WHERE email = :email");
             
             $stmt->execute([
-                ':name' => $input['name'],
+                ':firstName' => $input['firstName'],
                 ':lastName' => $input['lastName'],
                 ':email' => $input['email'],
                 ':position' => $input['position'],
@@ -101,7 +111,7 @@ try {
             break;
 
         case 'GET':
-            $stmt = $pdo->query("SELECT id, name, lastName, email, position, stack FROM users");
+            $stmt = $pdo->query("SELECT id, firstName, lastName, email, position, stack FROM user_authorization");
             $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             
             $teamMembers = [];
@@ -111,7 +121,7 @@ try {
                 $teamMembers[] = [
                     'id' => $user['id'],
                     'personData' => [
-                        'name' => $user['name'],
+                        'firstName' => $user['firstName'],
                         'lastName' => $user['lastName'],
                         'email' => $user['email'],
                         'position' => $user['position'],
