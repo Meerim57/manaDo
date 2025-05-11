@@ -6,6 +6,7 @@ import { TeamMember, UsersService } from 'src/app/service/users.service';
 import { TicketService } from 'src/app/service/ticket.service';
 
 export interface Ticket {
+  id?: number;
   name: string;
   status: string;
   description: string;

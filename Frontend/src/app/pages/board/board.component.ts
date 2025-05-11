@@ -50,12 +50,36 @@ export class BoardComponent implements OnInit {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
+      const movedTask = event.previousContainer.data[event.previousIndex];
+  
+      let newStatus: string;
+      switch (event.container.id) {
+        case 'list-new':
+          newStatus = 'Новое';
+          break;
+        case 'list-in-progress':
+          newStatus = 'В работе';
+          break;
+        case 'list-completed':
+          newStatus = 'Закончено';
+          break;
+        default:
+          newStatus = movedTask.status;
+      }
+  
+      this.ticketService.updateTicket(movedTask.id, { status: newStatus }).subscribe({
+        next: () => {
+          transferArrayItem(
+            event.previousContainer.data,
+            event.container.data,
+            event.previousIndex,
+            event.currentIndex
+          );
+        },
+        error: (err) => {
+          console.error('Ошибка при обновлении задачи:', err);
+        }
+      });
     }
   }
 

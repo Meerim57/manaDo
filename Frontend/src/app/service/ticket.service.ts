@@ -53,6 +53,17 @@ export class TicketService {
     );
   }
 
+  updateTicket(ticketId: number, updatedFields: Partial<Ticket>): Observable<any> {
+  
+    return this.http.put(
+      this.apiUrl,
+      { id: ticketId, ...updatedFields }, 
+      { headers: this.headers }
+    ).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   private handleError(error: any): Observable<never> {
     let errorMessage = 'Unknown error';
     if (error.error instanceof ErrorEvent) {
