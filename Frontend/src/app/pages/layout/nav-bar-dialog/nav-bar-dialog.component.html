@@ -4,7 +4,7 @@
       <h1 class="main-title">Создать задачу</h1>
       <button class="close-dialog-btn" type="button" (click)="close()">×</button>
     </div>
-    <form class="main-info" [formGroup]="taskForm">
+    <form class="main-info" [formGroup]="taskForm" (ngSubmit)="create()">
       <div class="name-cont">
         <label class="field-name">Название</label>
         <input class="name-inpt" type="text" formControlName="name">
@@ -31,11 +31,11 @@
           <input class="deadline-inpt" formControlName="deadline" type="date">
         </div>
       </div>
+      <div class="actions-cont">
+        <button type="button" class="cancel-btn" (click)="cancel()">Отменить</button>
+        <button type="submit" class="create-btn">Создать</button>
+      </div>
     </form>
-  </div>
-  <div class="actions-cont">
-    <button type="button" class="cancel-btn" (click)="cancel()">Отменить</button>
-    <button type="button" class="create-btn" (click)="create()">Создать</button>
-  </div>
+  </div>  
 </div>
   

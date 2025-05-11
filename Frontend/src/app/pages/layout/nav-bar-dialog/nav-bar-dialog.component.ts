@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { UsersService } from 'src/app/service/users.service';
+import { TicketService } from 'src/app/service/ticket.service';
 
 export interface Ticket {
   name: string;
@@ -24,6 +25,8 @@ export interface Ticket {
 })
 export class NavBarDialogComponent implements OnInit {
   userService = inject(UsersService);
+  ticketService = inject(TicketService);
+
   statuses = [
     'Новое',
     'В работе',
@@ -77,6 +80,9 @@ export class NavBarDialogComponent implements OnInit {
     console.log(createdTicket);
 
     if (this.taskForm.valid) {
+      this.ticketService.createTicket(createdTicket).subscribe({
+        next: () => console.log('success')
+      })
       this.close();
     }
   }

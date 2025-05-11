@@ -1,8 +1,9 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule  } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { UsersService } from 'src/app/service/users.service';
 
 export interface UserInfo {
   firstName: string,
@@ -25,6 +26,7 @@ export interface UserInfo {
   ]
 })
 export class PersonInfoComponent {
+  userService = inject(UsersService);
   profileForm: FormGroup;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
@@ -47,7 +49,7 @@ export class PersonInfoComponent {
   }
 
   onSubmit() {
-    if (this.profileForm.valid) {
+    if (this.profileForm.valid) { 
       const userInfo = {
         firstName: this.profileForm.value.firstName,
         lastName: this.profileForm.value.lastName,
@@ -55,8 +57,11 @@ export class PersonInfoComponent {
         occupation: this.profileForm.value.occupation,
         stack: this.profileForm.value.stack
       }
-
       console.log(userInfo);
+      this.userService.sendUserInfo(userInfo).subscribe({
+        next: () => console.log('success')
+      })
+      
     }
   }
 
