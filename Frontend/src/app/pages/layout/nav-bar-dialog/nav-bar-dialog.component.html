@@ -23,8 +23,8 @@
         <div class="assignee-cont">
           <label class="field-name">Назначить на:</label>
           <select class="drop-down" formControlName="assignee">
-            <option *ngFor="let member of teamMember || []" [value]="member.id">
-              {{ member.personData.name }} {{ member.personData.lastName }}
+            <option *ngFor="let member of teamMember" [value]="member.id">
+              {{ member.personData.firstName }} {{ member.personData.lastName }}
             </option>
           </select>
         </div>

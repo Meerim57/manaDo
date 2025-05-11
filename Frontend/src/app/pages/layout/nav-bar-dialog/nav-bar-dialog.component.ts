@@ -26,7 +26,7 @@ export interface Ticket {
 export class NavBarDialogComponent implements OnInit {
   userService = inject(UsersService);
   ticketService = inject(TicketService);
-  teamMember!: TeamMember[];
+  teamMember: TeamMember[] = [];
 
   statuses = [
     'Новое',
@@ -55,10 +55,9 @@ export class NavBarDialogComponent implements OnInit {
   ngOnInit(): void {
     this.userService.getUsers().subscribe({
       next: (users) => {
-        this.teamMember = users.teamMembers;
         console.log(users);
-      },
-      error: () => console.log('error')
+        this.teamMember = users.teamMembers;
+      }
     })
   }
 
