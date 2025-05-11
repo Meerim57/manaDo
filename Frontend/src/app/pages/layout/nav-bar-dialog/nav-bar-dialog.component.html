@@ -23,7 +23,9 @@
         <div class="assignee-cont">
           <label class="field-name">Назначить на:</label>
           <select class="drop-down" formControlName="assignee">
-            <option></option>
+            <option *ngFor="let member of teamMember || []" [value]="member.id">
+              {{ member.personData.name }} {{ member.personData.lastName }}
+            </option>
           </select>
         </div>
         <div class="deadline-cont">

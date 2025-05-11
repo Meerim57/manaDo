@@ -2,7 +2,7 @@ import { Component, inject, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
-import { UsersService } from 'src/app/service/users.service';
+import { TeamMember, UsersService } from 'src/app/service/users.service';
 import { TicketService } from 'src/app/service/ticket.service';
 
 export interface Ticket {
@@ -26,6 +26,7 @@ export interface Ticket {
 export class NavBarDialogComponent implements OnInit {
   userService = inject(UsersService);
   ticketService = inject(TicketService);
+  teamMember!: TeamMember[];
 
   statuses = [
     'Новое',
@@ -54,6 +55,7 @@ export class NavBarDialogComponent implements OnInit {
   ngOnInit(): void {
     this.userService.getUsers().subscribe({
       next: (users) => {
+        this.teamMember = users.teamMembers;
         console.log(users);
       },
       error: () => console.log('error')
