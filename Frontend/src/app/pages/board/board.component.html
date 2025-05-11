@@ -19,9 +19,9 @@
         </div>
     </div>
 
-    <div class="column finished-task" cdkDropList id="list-completed" [cdkDropListData]="completedTickets" [cdkDropListConnectedTo]="connectedDropLists" (cdkDropListDropped)="drop($event)">
+    <div class="column" cdkDropList id="list-completed" [cdkDropListData]="completedTickets" [cdkDropListConnectedTo]="connectedDropLists" (cdkDropListDropped)="drop($event)">
         <h3>Завершено</h3>
-        <div class="task" *ngFor="let task of completedTickets" cdkDrag (click)="openTaskDialog(task)" [cdkDragDisabled]="true">
+        <div class="task finished-task" *ngFor="let task of completedTickets" cdkDrag (click)="openTaskDialog(task)" [cdkDragDisabled]="true">
             <div class="task-name">{{ task.name }}</div>
             <div class="from-whom">
                 <span>от {{ task.assignee }}</span><span class="expired-date">до {{ task.deadline }}</span>
