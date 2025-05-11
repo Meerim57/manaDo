@@ -29,13 +29,35 @@ try {
 
     $method = $_SERVER['REQUEST_METHOD'];
 
+    // Универсальный парсер входных данных
+    function getInputData() {
+        $jsonInput = json_decode(file_get_contents('php://input'), true);
+        
+        // Если есть JSON-данные, используем их
+        if ($jsonInput !== null) {
+            return $jsonInput;
+        }
+        
+        // Иначе собираем данные из всех возможных источников
+        return [
+            'name' => $_POST['name'] ?? $_GET['name'] ?? null,
+            'lastName' => $_POST['lastName'] ?? $_GET['lastName'] ?? null,
+            'email' => $_POST['email'] ?? $_GET['email'] ?? null,
+            'position' => $_POST['position'] ?? $_GET['position'] ?? null,
+            'stack' => $_POST['stack'] ?? $_GET['stack'] ?? null
+        ];
+    }
+
     switch($method) {
         case 'POST':
-            $input = json_decode(file_get_contents('php://input'), true);
+            $input = getInputData();
             
-            if (empty($input['name']) || empty($input['lastName']) || empty($input['email']) || 
-                empty($input['position']) || empty($input['stack'])) {
-                throw new Exception('Все поля обязательны для заполнения');
+            // Валидация обязательных полей
+            $requiredFields = ['name', 'lastName', 'email', 'position', 'stack'];
+            foreach ($requiredFields as $field) {
+                if (empty($input[$field])) {
+                    throw new Exception("Поле '$field' обязательно для заполнения");
+                }
             }
 
             // Проверка формата email
@@ -43,11 +65,22 @@ try {
                 throw new Exception('Неверный формат email');
             }
 
-            // Преобразование массива stack в строку для хранения
-            $stackString = json_encode($input['stack']);
+            // Обработка stack (может быть строкой или массивом)
+            $stack = $input['stack'];
+            if (is_array($stack)) {
+                $stackString = json_encode($stack);
+            } else {
+                // Пытаемся декодировать, если это JSON-строка
+                $decoded = json_decode($stack, true);
+                $stackString = ($decoded !== null) ? json_encode($decoded) : json_encode([$stack]);
+            }
 
-            $stmt = $pdo->prepare("INSERT INTO persons (name, lastName, email, position, stack) 
-                                 VALUES (:name, :lastName, :email, :position, :stack)");
+            $stmt = $pdo->prepare("UPDATE users SET 
+                                name = :name, 
+                                lastName = :lastName,
+                                position = :position,
+                                stack = :stack
+                                WHERE email = :email");
             
             $stmt->execute([
                 ':name' => $input['name'],
@@ -57,31 +90,34 @@ try {
                 ':stack' => $stackString
             ]);
 
+            if ($stmt->rowCount() === 0) {
+                throw new Exception('Пользователь с указанным email не найден');
+            }
+
             echo json_encode([
                 'status' => 'success',
-                'message' => 'Сотрудник успешно добавлен',
-                'person_id' => $pdo->lastInsertId()
+                'message' => 'Данные сотрудника успешно обновлены'
             ]);
             break;
 
         case 'GET':
-            $stmt = $pdo->query("SELECT * FROM persons");
-            $persons = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stmt = $pdo->query("SELECT id, name, lastName, email, position, stack FROM user_authorization");
+            $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             
-            // Преобразование строки stack обратно в массив для каждого сотрудника
             $teamMembers = [];
-            foreach ($persons as $person) {
-                $teamMember = [
-                    'id' => $person['id'],
+            foreach ($users as $user) {
+                $stack = json_decode($user['stack'], true) ?? [];
+                
+                $teamMembers[] = [
+                    'id' => $user['id'],
                     'personData' => [
-                        'name' => $person['name'],
-                        'lastName' => $person['lastName'],
-                        'email' => $person['email'],
-                        'position' => $person['position'],
-                        'stack' => json_decode($person['stack'])
+                        'name' => $user['name'],
+                        'lastName' => $user['lastName'],
+                        'email' => $user['email'],
+                        'position' => $user['position'],
+                        'stack' => is_array($stack) ? $stack : [$stack]
                     ]
                 ];
-                $teamMembers[] = $teamMember;
             }
             
             echo json_encode([

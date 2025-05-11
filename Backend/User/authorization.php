@@ -46,7 +46,7 @@ try {
         $password = password_hash(trim($input['password']), PASSWORD_DEFAULT);
 
         // Проверка существования пользователя
-        $stmt = $pdo->prepare("SELECT id FROM [user/authorization] WHERE email = ?");
+        $stmt = $pdo->prepare("SELECT id FROM [user_authorization] WHERE email = ?");
         $stmt->execute([$email]);
         
         if ($stmt->fetch()) {
@@ -55,7 +55,7 @@ try {
         }
 
         // Создание нового пользователя
-        $stmt = $pdo->prepare("INSERT INTO [user/authorization] (email, password) VALUES (?, ?)");
+        $stmt = $pdo->prepare("INSERT INTO [user_authorization] (email, password) VALUES (?, ?)");
         $stmt->execute([$email, $password]);
 
         // Успешный ответ
@@ -66,15 +66,15 @@ try {
             'message' => 'User registered successfully'
         ]);
 
-    } elseif ($method === 'GET') {
+    } elseif ($method === 'GET') { //дописать во фронт 
         // Обработка GET-запроса
         if (isset($_GET['email'])) {
             $email = $_GET['email'];
-            $stmt = $pdo->prepare("SELECT id, email FROM [user/authorization] WHERE email = ?");
+            $stmt = $pdo->prepare("SELECT id, email FROM [user_authorization] WHERE email = ?");
             $stmt->execute([$email]);
         } elseif (isset($_GET['id'])) {
             $id = $_GET['id'];
-            $stmt = $pdo->prepare("SELECT id, email FROM [user/authorization] WHERE id = ?");
+            $stmt = $pdo->prepare("SELECT id, email FROM [user_authorization] WHERE id = ?");
             $stmt->execute([$id]);
         } else {
             http_response_code(400);
