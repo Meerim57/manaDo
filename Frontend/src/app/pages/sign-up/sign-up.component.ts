@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { AuthService } from 'src/app/service/auth.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -18,7 +18,7 @@ export class SignUpComponent {
 
   signUpForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private router: Router,) {}
 
   ngOnInit(): void {
     this.signUpForm = this.fb.group({
@@ -35,6 +35,7 @@ export class SignUpComponent {
       this.authService.register(email, password).subscribe({
         next: (response) => {
           console.log('Регистрация успешна:', response);
+          this.router.navigate(['/login']);
         },
         error: err => {
           console.error('Ошибка регистрации:', err);

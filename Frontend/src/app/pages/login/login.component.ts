@@ -3,6 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,8 @@ import { AuthService } from 'src/app/service/auth.service';
   styleUrls: ['./login.component.css'],
   standalone: true,
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ]
 })
 export class LoginComponent implements OnInit {
@@ -44,6 +46,5 @@ export class LoginComponent implements OnInit {
         console.error('Ошибка входа:', err);
       }
     })
-    
   }
 }
