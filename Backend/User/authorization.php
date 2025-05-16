@@ -5,18 +5,15 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-Type: application/json");
 header("Access-Control-Allow-Credentials: true");
 
-// Включение отображения ошибок
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Обработка preflight-запроса OPTIONS
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     http_response_code(200);
     exit();
 }
 
 try {
-    // Подключение к базе данных
     $dbPath = realpath(__DIR__ . '/../DIPLOMBD/diplom.db');
     
     if (!file_exists($dbPath)) {
@@ -30,6 +27,8 @@ try {
     $pdo = new PDO("sqlite:$dbPath");
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+
+    
     $method = $_SERVER['REQUEST_METHOD'];
     $input = json_decode(file_get_contents('php://input'), true);
 
@@ -58,7 +57,7 @@ try {
         }
 
         // Проверка существования пользователя
-        $stmt = $pdo->prepare("SELECT id, email, created_at FROM [user/authorization] WHERE email = ?");
+        $stmt = $pdo->prepare("SELECT id, email, created_at FROM [user_authorization] WHERE email = ?");
         $stmt = $pdo->prepare("SELECT id FROM [user_authorization] WHERE email = ?");
         $stmt->execute([$email]);
         $existingUser = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -81,7 +80,6 @@ try {
             ]));
         }
 
-        // Создание нового пользователя
         $passwordHash = password_hash($password, PASSWORD_DEFAULT);
         $stmt = $pdo->prepare("INSERT INTO [user_authorization] (email, password) VALUES (?, ?)");
         $stmt->execute([$email, $passwordHash]);
@@ -99,17 +97,18 @@ try {
             ],
             'timestamp' => date('c')
         ]);
+        
 
     } elseif ($method === 'GET') { //дописать во фронт 
         // Обработка GET-запроса
         if (isset($_GET['email'])) {
             $email = $_GET['email'];
-            $stmt = $pdo->prepare("SELECT id, email, created_at FROM [user/authorization] WHERE email = ?");
+            $stmt = $pdo->prepare("SELECT id, email, created_at FROM [user_authorization] WHERE email = ?");
             $stmt = $pdo->prepare("SELECT id, email FROM [user_authorization] WHERE email = ?");
             $stmt->execute([$email]);
         } elseif (isset($_GET['id'])) {
             $id = $_GET['id'];
-            $stmt = $pdo->prepare("SELECT id, email, created_at FROM [user/authorization] WHERE id = ?");
+            $stmt = $pdo->prepare("SELECT id, email, created_at FROM [user_authorization] WHERE id = ?");
             $stmt = $pdo->prepare("SELECT id, email FROM [user_authorization] WHERE id = ?");
             $stmt->execute([$id]);
         } else {
