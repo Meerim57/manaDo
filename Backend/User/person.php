@@ -111,7 +111,7 @@ try {
             break;
 
         case 'GET':
-            $stmt = $pdo->query("SELECT id, firstName, lastName, email, position, stack FROM user_authorization");
+            $stmt = $pdo->query("SELECT id, firstName, lastname, email, position, stack FROM user_authorization");
             $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             
             $teamMembers = [];
@@ -121,8 +121,8 @@ try {
                 $teamMembers[] = [
                     'id' => $user['id'],
                     'personData' => [
-                        'firstName' => $user['firstName'],
-                        'lastName' => $user['lastName'],
+                        'firstName' => ($user['firstName']),
+                        'lastName' => ($user['lastname']),
                         'email' => $user['email'],
                         'position' => $user['position'],
                         'stack' => is_array($stack) ? $stack : [$stack]
