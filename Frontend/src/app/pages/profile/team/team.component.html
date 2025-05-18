@@ -9,11 +9,11 @@
         <div class="avatar-cont">
             <img class="team-member-avatar" src="/assets/team-member1.jpg" alt="team-member">
         </div>
-        <div class="info-cont">
-            <div class="name">Вадим Вадимович Вадимов</div>
-            <div class="email-info">vadimVadimovgmail.com</div>
-            <div class="job">QA аналитик</div>
-            <div class="personal-info">Люблю котов и читать мангу</div>
+        <div class="info-cont" *ngFor="let member of teamMembers">
+            <div class="name">{{ member.personData.lastName }} {{ member.personData.firstName }}</div>
+            <div class="email-info">{{ member.personData.email }}</div>
+            <div class="job">{{ member.personData.position }}</div>
+            <div class="personal-info">{{ member.personData.stack[0] }}</div>
         </div>
     </div>
 </div>
