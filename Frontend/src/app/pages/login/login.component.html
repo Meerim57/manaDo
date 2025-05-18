@@ -8,22 +8,33 @@
             <div>
                 <div>
                     <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-                        <div>
-                            <input class="input-field" type="email" formControlName="email"
-                                placeholder="Почта">
-                        </div>
-                        <div>
+                        <div class="input-fields-block">
                             <div>
-                                <span>
-                                    <input class="input-field" type="password" formControlName="password"
-                                        placeholder="Пароль">
-                                </span>
+                                <input class="input-field" type="email" formControlName="email"
+                                    placeholder="Почта">
+                                <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="error-message">
+                                    <span *ngIf="loginForm.get('email')?.errors?.['required']">Почта обязательна</span>
+                                    <span *ngIf="loginForm.get('email')?.errors?.['email']">Введите корректный email</span>
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <span>
+                                        <input class="input-field" type="password" formControlName="password"
+                                            placeholder="Пароль">
+                                    </span>
+                                </div>
+                                <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error-message">
+                                    <span *ngIf="loginForm.get('password')?.errors?.['required']">Пароль обязателен</span>
+                                    <span *ngIf="loginForm.get('password')?.errors?.['minlength']">Пароль должен быть не менее 6 символов</span>
+                                </div>
                             </div>
                         </div>
+                        
                         <div class="underneath-block">
                         </div>
                         <div>
-                            <button type="submit" class="login-btn">
+                            <button type="submit" class="login-btn" [disabled]="loginForm.invalid">
                                 Войти
                             </button>
                         </div>

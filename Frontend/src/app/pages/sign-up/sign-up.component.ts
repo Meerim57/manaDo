@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { AuthService } from 'src/app/service/auth.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-sign-up',
@@ -10,7 +11,8 @@ import { Router, RouterModule } from '@angular/router';
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    CommonModule
   ]
 })
 export class SignUpComponent {

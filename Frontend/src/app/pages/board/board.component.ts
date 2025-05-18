@@ -60,9 +60,6 @@ export class BoardComponent implements OnInit {
         case 'list-in-progress':
           newStatus = 'В работе';
           break;
-        case 'list-completed':
-          newStatus = 'Закончено';
-          break;
         default:
           newStatus = movedTask.status;
       }

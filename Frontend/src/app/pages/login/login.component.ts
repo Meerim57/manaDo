@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
 import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,8 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    CommonModule
   ]
 })
 export class LoginComponent implements OnInit {

@@ -72,7 +72,6 @@
 .input-field {
     width: 100%;
     padding: 8px 16px;
-    margin-bottom: 8px;
     border: 1px solid #e5e5e5;
     border-radius: 5px;
     font-size: 14px;
@@ -109,3 +108,21 @@
 .center a:hover {
     color: #636363;
 }
+
+.input-fields-block {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.error-message {
+    color: rgb(219, 25, 25);
+    font-weight: bold;
+    text-align: left;
+    font-size: 12px;
+}
+
+.login-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+} 

@@ -31,8 +31,7 @@ export class NavBarDialogComponent implements OnInit {
 
   statuses = [
     'Новое',
-    'В работе',
-    'Закончено'
+    'В работе'
   ]
 
   //teamMembers: string[];

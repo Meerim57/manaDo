@@ -8,27 +8,31 @@
             <div>
                 <div>
                     <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
-                        <div>
-                            <input class="input-field" type="email" formControlName="email" placeholder="Почта">
-                        </div>
-                        <div>
+                        <div class="input-fields-block">
                             <div>
-                                <span>
-                                    <input class="input-field" type="password" formControlName="password" placeholder="Пароль">
-                                </span>
+                                <input class="input-field" type="email" formControlName="email" placeholder="Почта">
+                                <div *ngIf="signUpForm.get('email')?.invalid && signUpForm.get('email')?.touched" class="error-message">
+                                    <span *ngIf="signUpForm.get('email')?.errors?.['required']">Почта обязательна</span>
+                                    <span *ngIf="signUpForm.get('email')?.errors?.['email']">Введите корректный email</span>
+                                </div>
                             </div>
+                            <div>
+                                <div>
+                                    <span>
+                                        <input class="input-field" type="password" formControlName="password" placeholder="Пароль">
+                                    </span>
+                                </div>
+                                <div *ngIf="signUpForm.get('password')?.invalid && signUpForm.get('password')?.touched" class="error-message">
+                                    <span *ngIf="signUpForm.get('password')?.errors?.['required']">Пароль обязателен</span>
+                                    <span *ngIf="signUpForm.get('password')?.errors?.['minlength']">Пароль должен быть не менее 6 символов</span>
+                                </div>
+                            </div>  
                         </div>
+                        
                         <div class="underneath-block">
-                            <!--<div class="center">
-                                    <input type="checkbox" value="remember-me">
-                                    <span class="rem-me">Запомнить меня</span>
-                            </div>
-                            <div class="center">
-                                <a data-panel=".panel-forgot">Забыли пароль?</a>
-                            </div>-->
                         </div>
                         <div>
-                            <button type="submit" class="login-btn">
+                            <button type="submit" class="login-btn" [disabled]="signUpForm.invalid">
                                 Зарегистрироваться
                             </button>
                         </div>
