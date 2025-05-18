@@ -62,7 +62,6 @@ try {
         case 'POST':
             $input = getInputData();
             
-            // Валидация обязательных полей
             $requiredFields = ['firstName', 'lastName', 'email', 'position', 'stack'];
             foreach ($requiredFields as $field) {
                 if (empty($input[$field])) {
@@ -70,17 +69,14 @@ try {
                 }
             }
 
-            // Проверка формата email
-            if (!filter_var($input['email'], FILTER_VALIDATE_EMAIL)) {
+            if (!filter_var($input['email'], FILTER_VALIDATE_EMAIL)) {// FILTER_VALIDATE_EMAIL встроенный в php фильтр
                 throw new Exception('Неверный формат email');
             }
 
-            // Обработка stack (может быть строкой или массивом)
             $stack = $input['stack'];
             if (is_array($stack)) {
                 $stackString = json_encode($stack);
             } else {
-                // Пытаемся декодировать, если это JSON-строка
                 $decoded = json_decode($stack, true);
                 $stackString = ($decoded !== null) ? json_encode($decoded) : json_encode([$stack]);
             }

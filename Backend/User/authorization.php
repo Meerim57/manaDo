@@ -99,40 +99,56 @@ try {
         ]);
         
 
-    } elseif ($method === 'GET') { //дописать во фронт 
+    } elseif ($method === 'GET') {
         // Обработка GET-запроса
-        if (isset($_GET['email'])) {
+        if (isset($_GET['email']) && isset($_GET['password'])) {
             $email = $_GET['email'];
-            $stmt = $pdo->prepare("SELECT id, email, created_at FROM [user_authorization] WHERE email = ?");
-            $stmt = $pdo->prepare("SELECT id, email FROM [user_authorization] WHERE email = ?");
+            $password = $_GET['password'];
+            
+            $stmt = $pdo->prepare("SELECT id, email, password FROM [user_authorization] WHERE email = ?");
             $stmt->execute([$email]);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if ($user && password_verify($password, $user['password'])) {
+                unset($user['password']); // Удаляем пароль из ответа
+                echo json_encode([
+                    'status' => 'success',
+                    'user' => $user
+                ]);
+            } else {
+                http_response_code(401);
+                echo json_encode([
+                    'status' => 'error',
+                    'code' => 'INVALID_CREDENTIALS',
+                    'message' => 'Неверный email или пароль'
+                ]);
+            }
         } elseif (isset($_GET['id'])) {
             $id = $_GET['id'];
-            $stmt = $pdo->prepare("SELECT id, email, created_at FROM [user_authorization] WHERE id = ?");
             $stmt = $pdo->prepare("SELECT id, email FROM [user_authorization] WHERE id = ?");
             $stmt->execute([$id]);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if ($user) {
+                echo json_encode([
+                    'status' => 'success',
+                    'user' => $user
+                ]);
+            } else {
+                http_response_code(404);
+                echo json_encode([
+                    'status' => 'error',
+                    'code' => 'USER_NOT_FOUND',
+                    'message' => 'Пользователь не найден'
+                ]);
+            }
         } else {
             http_response_code(400);
             die(json_encode([
                 'status' => 'error',
                 'code' => 'MISSING_PARAMETER',
-                'message' => 'Email or ID parameter is required'
+                'message' => 'Требуется указать email и пароль или id'
             ]));
-        }
-
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($user) {
-            echo json_encode([
-                'status' => 'success',
-                'user' => $user
-            ]);
-        } else {
-            http_response_code(404);
-            echo json_encode([
-                'status' => 'error',
-                'code' => 'USER_NOT_FOUND',
-                'message' => 'User not found'
-            ]);
         }
     } else {
         http_response_code(405);
