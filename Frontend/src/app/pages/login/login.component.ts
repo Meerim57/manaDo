@@ -38,11 +38,9 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin() {
-    this.authService.login().subscribe({
-      next: (user) => {
-        if (user.email === this.loginForm.value.email && user.password === this.loginForm.value.password) {
-          this.router.navigate(['/board']);
-        }
+    this.authService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe({
+      next: (status) => {
+       console.log(status);
       },
       error: err => {
         console.error('Ошибка входа:', err);

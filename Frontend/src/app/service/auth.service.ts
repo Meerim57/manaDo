@@ -37,10 +37,12 @@ export class AuthService {
     );
   }
 
-  login(): Observable<User> {
-    return this.http.get<User>(this.apiUrl).pipe(
-      catchError(this.handleError)
-    );
+  login(email: string, password: string): Observable<any> {
+    const params = new HttpParams()
+      .set('email', email)
+      .set('password', password);
+
+    return this.http.get<any>(this.apiUrl, { params });
   }
 
   getUserByEmail(email: string): Observable<User> {
