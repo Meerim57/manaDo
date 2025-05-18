@@ -44,9 +44,9 @@ export class LoginComponent implements OnInit {
         if (data.status === 'success') {
           this.router.navigate(['/board']);
         }
-        if (data.status === 'error') {
-          this.loginError.set(true);
-        }
+      },
+      error: () => {
+        this.loginError.set(true);
       }
     })
   }
