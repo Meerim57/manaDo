@@ -39,12 +39,12 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin() {
-    this.authService.login(this.loginForm.value.email, this.loginForm.value.pass).subscribe({
+    this.authService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe({
       next: (data) => {
         if (data.status === 'success') {
           this.router.navigate(['/board']);
         }
-        else {
+        if (data.status === 'error') {
           this.loginError.set(true);
         }
       }
