@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
@@ -20,6 +20,7 @@ import { CommonModule } from '@angular/common';
 export class LoginComponent implements OnInit {
   authService = inject(AuthService);
   loginForm!: FormGroup;
+  loginError = signal(false);
 
   loginObj: any = {
     userId: 0,
@@ -38,12 +39,14 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin() {
-    this.authService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe({
-      next: (status) => {
-       console.log(status);
-      },
-      error: err => {
-        console.error('Ошибка входа:', err);
+    this.authService.login(this.loginForm.value.email, this.loginForm.value.pass).subscribe({
+      next: (data) => {
+        if (data.status === 'success') {
+          this.router.navigate(['/board']);
+        }
+        else {
+          this.loginError.set(true);
+        }
       }
     })
   }

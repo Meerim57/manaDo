@@ -28,6 +28,9 @@
                                     <span *ngIf="loginForm.get('password')?.errors?.['required']">Пароль обязателен</span>
                                     <span *ngIf="loginForm.get('password')?.errors?.['minlength']">Пароль должен быть не менее 6 символов</span>
                                 </div>
+                                <div *ngIf="loginError" class="error-message">
+                                    <span>Неправильный логин или пароль</span>
+                                </div>
                             </div>
                         </div>
                         
