@@ -112,7 +112,8 @@ try {
             
             $teamMembers = [];
             foreach ($users as $user) {
-                $stack = json_decode($user['stack'], true) ?? [];
+
+                $stack = json_decode($user['stack'] ?? '', true) ?? [];
                 
                 $teamMembers[] = [
                     'id' => $user['id'],
@@ -125,16 +126,19 @@ try {
                     ]
                 ];
             }
-            
-            echo json_encode([
+
+            $json = json_encode([
                 'status' => 'success',
-                'team-members' => $teamMembers
+                'teamMembers' => $teamMembers
             ]);
+           
+        
+            echo $json;
             break;
+            
     }
 
 } catch (Exception $e) {
-    http_response_code(400);
     echo json_encode([
         'status' => 'error',
         'message' => $e->getMessage()
