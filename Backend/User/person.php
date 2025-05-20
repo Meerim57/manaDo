@@ -107,12 +107,17 @@ try {
             break;
 
         case 'GET':
-            $stmt = $pdo->query("SELECT id, firstName, lastname, email, position, stack FROM user_authorization");
-            $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if (isset($_GET['id'])) {
+                $stmt = $pdo->prepare("SELECT id, firstName, lastname, email, position, stack FROM user_authorization WHERE id = ?");
+                $stmt->execute([$_GET['id']]);
+                $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            } else {
+                $stmt = $pdo->query("SELECT id, firstName, lastname, email, position, stack FROM user_authorization");
+                $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
             
             $teamMembers = [];
             foreach ($users as $user) {
-
                 $stack = json_decode($user['stack'] ?? '', true) ?? [];
                 
                 $teamMembers[] = [
@@ -132,7 +137,6 @@ try {
                 'teamMembers' => $teamMembers
             ]);
            
-        
             echo $json;
             break;
             
