@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { UserInfo } from '../pages/profile/person-info/person-info.component';
 
@@ -34,6 +34,8 @@ export class UsersService {
     'Content-Type': 'application/json',
     'Accept': 'application/json'
   });
+
+  userId = signal<null | number>(null);
 
   constructor(private http: HttpClient) { }
 

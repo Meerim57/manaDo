@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { UsersService } from 'src/app/service/users.service';
 
 @Component({
   selector: 'app-login',
@@ -21,6 +22,7 @@ export class LoginComponent implements OnInit {
   authService = inject(AuthService);
   loginForm!: FormGroup;
   loginError = signal(false);
+  userService = inject(UsersService);
 
   loginObj: any = {
     userId: 0,
@@ -42,6 +44,8 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe({
       next: (data) => {
         if (data.status === 'success') {
+          this.userService.userId.set(data.users.id);
+          console.log(this.userService.userId);
           this.router.navigate(['/board']);
         }
       },
