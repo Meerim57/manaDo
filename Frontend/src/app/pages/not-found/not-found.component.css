@@ -1,0 +1,30 @@
+.not-found-cont {
+    background-image: url(/assets/not-found.jpg);
+    height: 100vh;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+
+    .go-to-main-page {
+        margin-bottom: 30px;
+        border: none;
+        color: white;
+        background-color: #233942;
+        padding: 8px 20px;
+        font-weight: 500;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        box-shadow: 0 0 10px rgba(23, 71, 90, 0.5);
+        transition: background-color 0.3s;
+    }
+
+    .go-to-main-page:hover {
+        background-color: #29434c;
+        box-shadow: 0 0 20px rgba(23, 71, 90, 0.8);
+    }
+}

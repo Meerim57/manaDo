@@ -16,6 +16,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TaskDialogComponent } from './pages/board/task-dialog/task-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NavBarDialogComponent } from './pages/layout/nav-bar-dialog/nav-bar-dialog.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { NavBarDialogComponent } from './pages/layout/nav-bar-dialog/nav-bar-dia
     FormsModule,
     HttpClientModule,
     LoginComponent,
+    NotFoundComponent,
     BrowserAnimationsModule,
     ProfileComponent,
     PersonInfoComponent,

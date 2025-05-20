@@ -7,6 +7,7 @@ import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { TeamComponent } from './pages/profile/team/team.component';
 import { PersonInfoComponent } from './pages/profile/person-info/person-info.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 const routes: Routes = [
   {
@@ -47,6 +48,10 @@ const routes: Routes = [
       }
 
     ]
+  },
+  {
+    path: '**',
+    component: NotFoundComponent
   }
 ];
 
