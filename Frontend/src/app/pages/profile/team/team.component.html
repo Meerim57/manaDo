@@ -4,12 +4,12 @@
     </a>
     <h1 class="panel-name">Команда</h1>
 </div>
-<div class="team-cont">
+<div class="team-cont" *ngFor="let member of teamMembers">
     <div class="team-member" routerLink="/board">
         <div class="avatar-cont">
             <img class="team-member-avatar" src="/assets/team-member1.jpg" alt="team-member">
         </div>
-        <div class="info-cont" *ngFor="let member of teamMembers">
+        <div class="info-cont">
             <div class="name">{{ member.personData.lastName }} {{ member.personData.firstName }}</div>
             <div class="email-info">{{ member.personData.email }}</div>
             <div class="job">{{ member.personData.position }}</div>

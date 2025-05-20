@@ -42,9 +42,7 @@ export class UsersService {
   getUsers(): Observable<userInfo> {
     return this.http.get<userInfo>(
       this.apiUrl
-    ).pipe(
-      catchError(this.handleError)
-    );
+    )
   }
 
   sendUserInfo(userInfo: UserInfo): Observable<UserSended> {

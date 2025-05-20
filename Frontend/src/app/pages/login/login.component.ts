@@ -44,8 +44,8 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe({
       next: (data) => {
         if (data.status === 'success') {
-          this.userService.userId.set(data.users.id);
-          console.log(this.userService.userId);
+          this.userService.userId.set(data.user.id);
+          console.log(this.userService.userId());
           this.router.navigate(['/board']);
         }
       },

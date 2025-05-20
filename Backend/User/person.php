@@ -107,12 +107,18 @@ try {
             break;
 
         case 'GET':
-            $stmt = $pdo->query("SELECT id, firstName, lastname, email, position, stack FROM user_authorization");
-            $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if (isset($_GET['id'])) {
+                $stmt = $pdo->prepare("SELECT id, firstName, lastname, email, position, stack FROM user_authorization WHERE id = ?");
+                $stmt->execute([$_GET['id']]);
+                $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            } else {
+                $stmt = $pdo->query("SELECT id, firstName, lastname, email, position, stack FROM user_authorization");
+                $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
             
             $teamMembers = [];
             foreach ($users as $user) {
-                $stack = json_decode($user['stack'], true) ?? [];
+                $stack = json_decode($user['stack'] ?? '', true) ?? [];
                 
                 $teamMembers[] = [
                     'id' => $user['id'],
@@ -125,16 +131,18 @@ try {
                     ]
                 ];
             }
-            
-            echo json_encode([
+
+            $json = json_encode([
                 'status' => 'success',
-                'team-members' => $teamMembers
+                'teamMembers' => $teamMembers
             ]);
+           
+            echo $json;
             break;
+            
     }
 
 } catch (Exception $e) {
-    http_response_code(400);
     echo json_encode([
         'status' => 'error',
         'message' => $e->getMessage()
