@@ -9,6 +9,7 @@ import { TeamComponent } from './pages/profile/team/team.component';
 import { PersonInfoComponent } from './pages/profile/person-info/person-info.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { AuthGuard } from './guards/auth.guard';
+import { StatisticComponent } from './pages/statistic/statistic.component';
 
 const routes: Routes = [
   {
@@ -49,6 +50,10 @@ const routes: Routes = [
         component: BoardComponent
       }
     ]
+  },
+  {
+    path: 'statistic',
+    component: StatisticComponent
   },
   {
     path: '**',

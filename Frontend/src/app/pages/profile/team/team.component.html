@@ -4,16 +4,23 @@
     </a>
     <h1 class="panel-name">Команда</h1>
 </div>
-<div class="team-cont" *ngFor="let member of teamMembers">
-    <div class="team-member" routerLink="/board">
-        <div class="avatar-cont">
-            <img class="team-member-avatar" src="/assets/team-member1.jpg" alt="team-member">
+<div class="team-cont">
+    <div class="team-member-cont" *ngFor="let member of teamMembers">
+        <div class="team-member" routerLink="/board">
+            <div class="avatar-cont">
+                <img class="team-member-avatar" src="/assets/team-member1.jpg" alt="team-member">
+            </div>
+            <div class="info-cont">
+                <div class="name">{{ member.personData.lastName }} {{ member.personData.firstName }}</div>
+                <div class="email-info">{{ member.personData.email }}</div>
+                <div class="job">{{ member.personData.position }}</div>
+                <div class="personal-info">{{ member.personData.stack[0] }}</div>
+            </div>
         </div>
-        <div class="info-cont">
-            <div class="name">{{ member.personData.lastName }} {{ member.personData.firstName }}</div>
-            <div class="email-info">{{ member.personData.email }}</div>
-            <div class="job">{{ member.personData.position }}</div>
-            <div class="personal-info">{{ member.personData.stack }}</div>
+        <div class="static-cont" routerLink="/statistic">
+            <div class="static-img">
+                <img class="bar-icon" src="/assets/static.png">
+            </div>
         </div>
     </div>
 </div>
