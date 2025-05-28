@@ -8,6 +8,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { TeamComponent } from './pages/profile/team/team.component';
 import { PersonInfoComponent } from './pages/profile/person-info/person-info.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { StatisticComponent } from './pages/statistic/statistic.component';
 
 const routes: Routes = [
   {
@@ -48,6 +49,10 @@ const routes: Routes = [
       }
 
     ]
+  },
+  {
+    path: 'statistic',
+    component: StatisticComponent
   },
   {
     path: '**',

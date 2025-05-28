@@ -17,6 +17,7 @@ import { TaskDialogComponent } from './pages/board/task-dialog/task-dialog.compo
 import { MatDialogModule } from '@angular/material/dialog';
 import { NavBarDialogComponent } from './pages/layout/nav-bar-dialog/nav-bar-dialog.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { StatisticComponent } from './pages/statistic/statistic.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
     DragDropModule,
     MatDialogModule,
     NavBarDialogComponent,
-    SignUpComponent
+    SignUpComponent,
+    StatisticComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

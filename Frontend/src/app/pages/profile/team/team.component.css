@@ -3,51 +3,78 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    
-    .team-member {
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 1.2rem;
-        background-color: white;
-        padding: 10px 35px;
-        border-radius: 10px;
-        margin-top: 15px;
-        width: 350px;
-        height: 100px;
 
-        .avatar-cont {
-            width: 60px;
-            height: 60px;
-            
-            .team-member-avatar {
+    .team-member-cont {
+        display: flex;
+        gap: .8rem;
+        align-items: center;
+
+        .team-member {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            background-color: white;
+            padding: 10px 35px;
+            border-radius: 10px;
+            margin-top: 15px;
+            width: 350px;
+            height: 100px;
+
+            .avatar-cont {
                 width: 60px;
                 height: 60px;
-                object-fit: cover;
-                object-position: center;
-                border-radius: 50%;
+                
+                .team-member-avatar {
+                    width: 60px;
+                    height: 60px;
+                    object-fit: cover;
+                    object-position: center;
+                    border-radius: 50%;
+                }
+            }
+
+            .info-cont {
+                .name {
+                    color: #451bab;
+                    font-size: 16px;
+                    font-weight: 500;
+                }
+
+                .email-info {
+                    color: rgb(53, 53, 53);
+                    font-size: 13px;
+                }
+
+                .job {
+                    color: #1d3557;
+                    font-size: 13px;
+                }
+                .personal-info {
+                    color: #2d6a4f;
+                    font-size: 12px;
+                }
             }
         }
 
-        .info-cont {
-            .name {
-                color: #451bab;
-                font-size: 16px;
-                font-weight: 500;
-            }
+        .static-cont {
+            cursor: pointer;
+            background-color: white;
+            border-radius: 10px;
+            margin-top: 15px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-            .email-info {
-                color: rgb(53, 53, 53);
-                font-size: 13px;
-            }
-
-            .job {
-                color: #1d3557;
-                font-size: 13px;
-            }
-            .personal-info {
-                color: #2d6a4f;
-                font-size: 12px;
+            .static-img {
+                .bar-icon {
+                    width: 30px;
+                    height: 30px;
+                    object-fit: contain;
+                    object-position: center;
+                }
             }
         }
     }
