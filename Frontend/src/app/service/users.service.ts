@@ -15,7 +15,7 @@ export interface TeamMember {
     lastName: string;      
     email: string;         
     position: string;     
-    stack: any[];          
+    stack: string;          
   }
 }
 

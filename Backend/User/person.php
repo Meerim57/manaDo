@@ -49,7 +49,7 @@ try {
         }
         
         // Иначе собираем данные из всех возможных источников
-       /* return [
+        /*return [
             'firstName' => $_POST['firstName'] ?? $_GET['firstName'] ?? null,
             'lastName' => $_POST['lastName'] ?? $_GET['lastName'] ?? null,
             'email' => $_POST['email'] ?? $_GET['email'] ?? null,
@@ -74,12 +74,7 @@ try {
             }
 
             $stack = $input['stack'];
-            if (is_array($stack)) {
-                $stackString = json_encode($stack);
-            } else {
-                $decoded = json_decode($stack, true);
-                $stackString = ($decoded !== null) ? json_encode($decoded) : json_encode([$stack]);
-            }
+            $stackString = $stack;
 
             $stmt = $pdo->prepare("UPDATE user_authorization SET 
                                 firstName = :firstName, 
@@ -127,7 +122,7 @@ try {
                         'lastName' => ($user['lastname']),
                         'email' => $user['email'],
                         'position' => $user['position'],
-                        'stack' => is_array($stack) ? $stack : [$stack]
+                        'stack' => $stack
                     ]
                 ];
             }

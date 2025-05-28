@@ -16,7 +16,7 @@ export interface UserInfo {
 export interface UserFullInfo {
   id: number;
   email: string;
-  stack: string[];
+  stack: string;
   lastName: string;
   position: string;
   firstName: string;
