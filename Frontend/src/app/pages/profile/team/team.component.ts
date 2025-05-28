@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterModule  } from '@angular/router';
+import { Router, RouterModule  } from '@angular/router';
 import { TeamMember, UsersService } from 'src/app/service/users.service';
 import { CommonModule } from '@angular/common';
 
@@ -18,6 +18,7 @@ import { CommonModule } from '@angular/common';
 export class TeamComponent implements OnInit {
   usersService = inject(UsersService);
   teamMembers: TeamMember[] = [];
+  router = inject(Router);
 
   ngOnInit(): void {
     this.usersService.getUsers().subscribe({
@@ -25,5 +26,11 @@ export class TeamComponent implements OnInit {
         this.teamMembers = users.teamMembers;
       }
     })
+  }
+
+  navigateToStatisticPage(member: TeamMember) {
+    this.router.navigate(['/statistic'], {
+      state: { member: member }
+    });
   }
 }

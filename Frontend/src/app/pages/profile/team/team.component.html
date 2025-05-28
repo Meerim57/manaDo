@@ -17,7 +17,7 @@
                 <div class="personal-info">{{ member.personData.stack[0] }}</div>
             </div>
         </div>
-        <div class="static-cont" routerLink="/statistic">
+        <div class="static-cont" (click)=navigateToStatisticPage(member)>
             <div class="static-img">
                 <img class="bar-icon" src="/assets/static.png">
             </div>

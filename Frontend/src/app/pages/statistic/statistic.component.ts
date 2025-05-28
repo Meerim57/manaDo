@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { TeamMember } from 'src/app/service/users.service';
 
 @Component({
   selector: 'app-statistic',
@@ -12,6 +13,17 @@ import { RouterModule } from '@angular/router';
     RouterModule
   ]
 })
-export class StatisticComponent {
+export class StatisticComponent implements OnInit {
+  memberData: TeamMember;
+
+  constructor(private router: Router) {
+    const navigation = this.router.getCurrentNavigation();
+    this.memberData = navigation?.extras.state?.['member'];
+  }
+
+  ngOnInit(): void {
+    console.log(this.memberData);
+  }
+  
 
 }

@@ -41,7 +41,7 @@ try {
                     'firstName' => $jsonInput['userInfo']['firstName'] ?? null,
                     'lastName' => $jsonInput['userInfo']['lastName'] ?? null, 
                     'email' => $jsonInput['userInfo']['email'] ?? null,
-                    'position' => $jsonInput['userInfo']['occupation'] ?? null,
+                    'position' => $jsonInput['userInfo']['position'] ?? null,
                     'stack' => $jsonInput['userInfo']['stack'] ?? null
                 ];
             }

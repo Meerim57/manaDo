@@ -36,7 +36,7 @@
       <button type="button" class="cancel-btn" (click)="onCancel()">
         Отменить
       </button>
-      <button type="submit" class="save-btn" [disabled]="!profileForm.valid">
+      <button type="submit" class="save-btn" [disabled]="!profileForm.valid" (click)="onSubmit()">
         Сохранить
       </button>
     </div>
