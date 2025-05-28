@@ -82,22 +82,43 @@ try {
             break;
 
         case 'GET':
-            // Получение списка задач
-            $stmt = $pdo->query("SELECT * FROM tasks");
-            $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if (isset($_GET['id_user'])){ // получение сделки по id пользователя
+                $user_id = $_GET['id_user'];
+                $stmt = $pdo->prepare("SELECT * FROM tasks WHERE assignee = ? ORDER BY id DESC");
+                $stmt->execute([$user_id]);
+                $user_tickets = $stmt->fetchAll(PDO::FETCH_ASSOC);
+               // $user_tickets = $stmt->fetch(PDO::FETCH_ASSOC);
             
-            echo json_encode([
-                'status' => 'success',
-                'tasks' => $tasks
-            ]);
-            break;
-
+                if ($user_tickets) {
+                    echo json_encode([
+                        'status' => 'success',
+                        'user_tickets' => $user_tickets
+                    ]);
+                } else {
+                    http_response_code(404);
+                    echo json_encode([
+                        'status' => 'error',
+                        'code' => 'USER_NOT_FOUND',
+                        'message' => 'Пользователь не найден'
+                    ]);
+                }
+            }else{
+                // Получение списка задач
+                $stmt = $pdo->query("SELECT * FROM tasks");
+                $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                
+                echo json_encode([
+                    'status' => 'success',
+                    'tasks' => $tasks
+                ]);
+                break;
+            }
         case 'PUT':
             // Обновление задачи
             $input = json_decode(file_get_contents('php://input'), true);
             
             if (empty($input['id'])) {
-                throw new Exception('ID задачи обязателен');
+               break;
             }
 
             $updateFields = [];

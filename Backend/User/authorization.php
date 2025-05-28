@@ -110,10 +110,20 @@ try {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
             
             if ($user && password_verify($password, $user['password'])) {
-                unset($user['password']); // Удаляем пароль из ответа
+                // Генерируем токен
+                $token = bin2hex(random_bytes(32));
+                
+                // Сохраняем токен в базе данных
+                $stmt = $pdo->prepare("UPDATE [user_authorization] SET token = ?, token_created_at = CURRENT_TIMESTAMP WHERE id = ?");
+                $stmt->execute([$token, $user['id']]);
+                
+                // Удаляем пароль из ответа
+                unset($user['password']);
+                
                 echo json_encode([
                     'status' => 'success',
-                    'user' => $user
+                    'user' => $user,
+                    'token' => $token
                 ]);
             } else {
                 http_response_code(401);
@@ -123,9 +133,29 @@ try {
                     'message' => 'Неверный email или пароль'
                 ]);
             }
+        } elseif (isset($_GET['token'])) {
+            $token = $_GET['token'];
+            
+            $stmt = $pdo->prepare("SELECT id FROM [user_authorization] WHERE token = ? AND token_created_at > datetime('now', '-24 hours')");
+            $stmt->execute([$token]);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if ($user) {
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => 'Token is valid'
+                ]);
+            } else {
+                http_response_code(401);
+                echo json_encode([
+                    'status' => 'error',
+                    'code' => 'INVALID_TOKEN',
+                    'message' => 'Invalid or expired token'
+                ]);
+            }
         } elseif (isset($_GET['id'])) {
             $id = $_GET['id'];
-            $stmt = $pdo->prepare("SELECT id, email FROM [user_authorization] WHERE id = ?");
+            $stmt = $pdo->prepare("SELECT id, firstName, lastname, email, position, stack FROM user_authorization WHERE id = ?");
             $stmt->execute([$id]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
             

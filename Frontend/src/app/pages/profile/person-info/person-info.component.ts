@@ -1,17 +1,24 @@
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule  } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { UsersService } from 'src/app/service/users.service';
+import { AuthService, UserFullInfo } from 'src/app/service/auth.service';
 
 export interface UserInfo {
   firstName: string,
   lastName: string,
   email: string,
-  occupation: string,
+  position: string,
   stack: string
 }
+
+type FieldType = {
+  label: string;
+  controlName: keyof UserFullInfo; 
+  type: string;
+};
 
 @Component({
   selector: 'app-person-info',
@@ -25,16 +32,19 @@ export interface UserInfo {
     CommonModule
   ]
 })
-export class PersonInfoComponent {
+export class PersonInfoComponent implements OnInit {
   userService = inject(UsersService);
+  authService = inject(AuthService);
+  userInfo = signal<UserFullInfo | null>(null);
   profileForm: FormGroup;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
-  fields = [
+  
+  fields: FieldType[] = [
     { label: 'Имя', controlName: 'firstName', type: 'text' },
     { label: 'Фамилия', controlName: 'lastName', type: 'text' },
     { label: 'Почта', controlName: 'email', type: 'email' },
-    { label: 'Должность', controlName: 'occupation', type: 'text' },
+    { label: 'Должность', controlName: 'position', type: 'text' },
     { label: 'Стэк', controlName: 'stack', type: 'text' }
   ];
 
@@ -43,9 +53,20 @@ export class PersonInfoComponent {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      occupation: [''],
+      position: [''],
       stack: ['']
     });
+  }
+
+  ngOnInit(): void {
+    this.authService.getUserById(this.userService.userId()).subscribe({
+      next: (data) => {
+        this.userInfo.set(data.user);
+      },
+      error: () => {
+        console.log('error');
+      }
+    })
   }
 
   onSubmit() {
@@ -54,7 +75,7 @@ export class PersonInfoComponent {
         firstName: this.profileForm.value.firstName,
         lastName: this.profileForm.value.lastName,
         email: this.profileForm.value.email,
-        occupation: this.profileForm.value.occupation,
+        position: this.profileForm.value.position,
         stack: this.profileForm.value.stack
       }
       console.log(userInfo);

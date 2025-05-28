@@ -35,7 +35,7 @@ export class UsersService {
     'Accept': 'application/json'
   });
 
-  userId = signal<null | number>(null);
+  userId = signal<number>(0);
 
   constructor(private http: HttpClient) { }
 

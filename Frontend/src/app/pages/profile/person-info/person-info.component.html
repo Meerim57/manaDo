@@ -29,7 +29,7 @@
 <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="personal-info-cont">
     <div class="field-cont" *ngFor="let field of fields">
       <div class="input-title">{{ field.label }}</div>
-      <input class="profile-inpt" [type]="field.type" [formControlName]="field.controlName">
+      <input class="profile-inpt" [type]="field.type" [placeholder]="userInfo()?.[field.controlName]" [formControlName]="field.controlName">
     </div>
   
     <div class="buttons-cont">

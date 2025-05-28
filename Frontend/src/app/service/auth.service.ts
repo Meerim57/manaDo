@@ -8,16 +8,36 @@ interface User {
   password: string;
 }
 
+export interface UserInfo {
+  status: string;
+  user: UserFullInfo;
+}
+
+export interface UserFullInfo {
+  id: number;
+  email: string;
+  stack: string[];
+  lastName: string;
+  position: string;
+  firstName: string;
+}
+
 interface RegisterResponse {
   id: number;
   email: string;
+}
+
+interface LoginResponse {
+  status: string;
+  user: User;
+  token: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8000/User/authorization.php'; // Упрощенный путь
+  private apiUrl = 'http://localhost:8000/User/authorization.php';
   private headers = new HttpHeaders({
     'Content-Type': 'application/json',
     'Accept': 'application/json'
@@ -26,8 +46,6 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   register(email: string, password: string): Observable<RegisterResponse> {
-    console.log({ email, password});
-    
     return this.http.post<RegisterResponse>(
       this.apiUrl, 
       { email, password },
@@ -37,12 +55,12 @@ export class AuthService {
     );
   }
 
-  login(email: string, password: string): Observable<any> {
+  login(email: string, password: string): Observable<LoginResponse> {
     const params = new HttpParams()
       .set('email', email)
       .set('password', password);
 
-    return this.http.get<any>(this.apiUrl, { params });
+    return this.http.get<LoginResponse>(this.apiUrl, { params });
   }
 
   getUserByEmail(email: string): Observable<User> {
@@ -55,9 +73,9 @@ export class AuthService {
     );
   }
 
-  getUserById(id: number): Observable<User> {
+  getUserById(id: number): Observable<UserInfo> {
     const params = new HttpParams().set('id', id.toString());
-    return this.http.get<User>(this.apiUrl, { 
+    return this.http.get<UserInfo>(this.apiUrl, { 
       headers: this.headers,
       params 
     }).pipe(
@@ -65,13 +83,32 @@ export class AuthService {
     );
   }
 
+  setToken(token: string): void {
+    localStorage.setItem('token', token);
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
+  removeToken(): void {
+    localStorage.removeItem('token');
+  }
+
+  isAuthenticated(): boolean {
+    return !!this.getToken();
+  }
+
+  checkToken(token: string): Observable<any> {
+    const params = new HttpParams().set('token', token);
+    return this.http.get<any>(this.apiUrl, { params });
+  }
+
   private handleError(error: any): Observable<never> {
     let errorMessage = 'Unknown error';
     if (error.error instanceof ErrorEvent) {
-      // Client-side error
       errorMessage = `Error: ${error.error.message}`;
     } else {
-      // Server-side error
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
     console.error(errorMessage);
