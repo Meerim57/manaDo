@@ -8,6 +8,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { TeamComponent } from './pages/profile/team/team.component';
 import { PersonInfoComponent } from './pages/profile/person-info/person-info.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -20,8 +21,13 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
+    path: 'sign-up',
+    component: SignUpComponent
+  },
+  {
     path: 'profile',
     component: ProfileComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -31,22 +37,17 @@ const routes: Routes = [
         path: 'team',
         component: TeamComponent
       }
-    
     ]
-  },
-  {
-    path: 'sign-up',
-    component: SignUpComponent
   },
   {
     path: '',
     component: LayoutComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'board',
         component: BoardComponent
       }
-
     ]
   },
   {

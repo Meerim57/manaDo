@@ -107,14 +107,14 @@ try {
             break;
 
         case 'GET':
-            if (isset($_GET['id'])) {
+            /*if (isset($_GET['id'])) {
                 $stmt = $pdo->prepare("SELECT id, firstName, lastname, email, position, stack FROM user_authorization WHERE id = ?");
                 $stmt->execute([$_GET['id']]);
                 $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            } else {
+            } else {*/
                 $stmt = $pdo->query("SELECT id, firstName, lastname, email, position, stack FROM user_authorization");
                 $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            }
+            //}
             
             $teamMembers = [];
             foreach ($users as $user) {
