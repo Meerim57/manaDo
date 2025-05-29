@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Ticket } from '../pages/layout/nav-bar-dialog/nav-bar-dialog.component';
 import { catchError, Observable, Subject, tap, throwError } from 'rxjs';
+import { UsersService } from './users.service';
 
 export interface ticketCreated {
   status: string;       
@@ -14,6 +15,11 @@ export interface ticketInfo {
   tasks: Ticket[];  
 }
 
+export interface UserTicketInfo {
+  status: string;       
+  user_tickets: Ticket[];  
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -23,7 +29,6 @@ export class TicketService {
     'Content-Type': 'application/json',
     'Accept': 'application/json'
   });
-
   private ticketsUpdated = new Subject<void>();
 
   ticketsUpdated$ = this.ticketsUpdated.asObservable();
@@ -49,6 +54,13 @@ export class TicketService {
     return this.http.get<ticketInfo>(
       this.apiUrl
     ).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getUserTickets(userId?: number): Observable<UserTicketInfo> {
+    const url = userId ? `${this.apiUrl}?user_id=${userId}` : this.apiUrl;
+    return this.http.get<UserTicketInfo>(url).pipe(
       catchError(this.handleError)
     );
   }

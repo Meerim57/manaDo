@@ -82,7 +82,7 @@ try {
             break;
 
         case 'GET':
-            if (isset($_GET['id_user'])){ // получение сделки по id пользователя
+            if (isset($_GET['user_id'])){ // получение сделки по id пользователя
                 // Сначала удаляем старые задачи
                 /*$stmt = $pdo->prepare("SELECT * FROM tasks WHERE datetime(deadline) < datetime('now', '-14 days')");
                 $stmt->execute();
@@ -97,7 +97,7 @@ try {
                     $stmt->execute();
                 }*/
                 
-                $user_id = $_GET['id_user'];
+                $user_id = $_GET['user_id'];
                 $stmt = $pdo->prepare("SELECT * FROM tasks WHERE assignee = ? ORDER BY id DESC");
                 $stmt->execute([$user_id]);
                 $user_tickets = $stmt->fetchAll(PDO::FETCH_ASSOC);

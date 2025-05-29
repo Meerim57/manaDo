@@ -31,7 +31,6 @@ try {
         if (isset($_GET['user_id'])) {
             $user_id = $_GET['user_id'];
 
-            // 1. Получаем выполненные задачи
             $stmt = $pdo->prepare("
                 SELECT * FROM tasks 
                 WHERE assignee = ? 
@@ -41,7 +40,6 @@ try {
             $stmt->execute([$user_id]);
             $completed_tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // 2. Получаем просроченные задачи
             $stmt = $pdo->prepare("
                 SELECT * FROM tasks 
                 WHERE assignee = ? 
@@ -52,7 +50,6 @@ try {
             $stmt->execute([$user_id]);
             $overdue_tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // Формируем статистику
             $statistics = [
                 'completed_tasks' => [
                     'count' => count($completed_tasks),

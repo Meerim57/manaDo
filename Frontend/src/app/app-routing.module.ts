@@ -53,7 +53,8 @@ const routes: Routes = [
   },
   {
     path: 'statistic',
-    component: StatisticComponent
+    component: StatisticComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: '**',

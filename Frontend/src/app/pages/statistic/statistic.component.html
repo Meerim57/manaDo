@@ -19,11 +19,11 @@
     <div class="static-blocks">
         <div class="static-block done">
             <div class="static-title">Всего завершено <mat-icon>done_all</mat-icon></div>
-            <div class="static-amount"><span class="static-number">25</span> задач</div>
+            <div class="static-amount"><span class="static-number">{{ statistics.completed_tasks.count }}</span> задач</div>
         </div>  
         <div class="static-block expired">
             <div class="static-title">Всего просроченно <mat-icon>timer_off</mat-icon></div>
-            <div class="static-amount"><span class="static-number">15</span> задач</div>
+            <div class="static-amount"><span class="static-number">{{ statistics.overdue_tasks.count }}</span> задач</div>
         </div>  
     </div>
 </div>

@@ -2,8 +2,9 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
 import { TaskDialogComponent } from './task-dialog/task-dialog.component';
-import { ticketInfo, TicketService } from 'src/app/service/ticket.service';
+import { ticketInfo, TicketService, UserTicketInfo } from 'src/app/service/ticket.service';
 import { Ticket } from '../layout/nav-bar-dialog/nav-bar-dialog.component';
+import { UsersService } from 'src/app/service/users.service';
 
 @Component({
   selector: 'app-board',
@@ -18,6 +19,7 @@ export class BoardComponent implements OnInit {
   inProgressTickets: Ticket[] = [];
   completedTickets: Ticket[] = [];
   expiredTickets: Ticket[] = [];
+  private usersService = inject(UsersService);
 
   connectedDropLists: string[] = ['list-new', 'list-in-progress', 'list-completed', 'list-expired'];
 
@@ -30,10 +32,11 @@ export class BoardComponent implements OnInit {
   }
 
   private loadTickets() {
-    this.ticketService.getTickets().subscribe({
-      next: (tickets: ticketInfo) => {
+    const userId = this.usersService.userId();
+    this.ticketService.getUserTickets(userId).subscribe({
+      next: (tickets: UserTicketInfo) => {
         console.log(tickets);
-        this.distributeTickets(tickets.tasks);
+        this.distributeTickets(tickets.user_tickets);
       },
       error: () => console.log('error')
     });
