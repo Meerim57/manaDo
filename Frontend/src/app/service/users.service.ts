@@ -1,22 +1,22 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable, signal } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
-import { UserInfo } from '../pages/profile/person-info/person-info.component';
-
-export interface userInfo {
-    status: string;          
-    teamMembers: TeamMember[];
-}
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { TokenService } from './token.service';
 
 export interface TeamMember {
-  id: number;              
-  personData: {            
-    firstName: string;           
-    lastName: string;      
-    email: string;         
-    position: string;     
-    stack: string;          
+  id: number;
+  personData: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    position: string;
+    stack: string[];
   }
+}
+
+export interface userInfo {
+  status: string;
+  teamMembers: TeamMember[];
 }
 
 export interface UserSended {
@@ -29,42 +29,76 @@ export interface UserSended {
   providedIn: 'root'
 })
 export class UsersService {
-  private apiUrl = 'http://localhost:8000/User/person.php';
-  private headers = new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  });
+  private apiUrl = 'http://localhost:8000/User';
+  private userIdSubject = new BehaviorSubject<number | null>(null);
+  public userId$ = this.userIdSubject.asObservable();
 
-  userId = signal<number>(0);
-
-  constructor(private http: HttpClient) { }
-
-  getUsers(): Observable<userInfo> {
-    return this.http.get<userInfo>(
-      this.apiUrl
-    )
+  constructor(
+    private http: HttpClient,
+    private tokenService: TokenService
+  ) {
+    // Проверяем наличие токена при инициализации
+    const token = this.tokenService.getToken();
+    if (token) {
+      this.validateToken(token);
+    }
   }
 
-  sendUserInfo(userInfo: UserInfo): Observable<UserSended> {
-    return this.http.post<UserSended>(
-      this.apiUrl,
-      { userInfo },
-      { headers: this.headers }
-    ).pipe(
-      catchError(this.handleError)
+  private validateToken(token: string): void {
+    this.http.get(`${this.apiUrl}/authorization.php`, {
+      params: { token }
+    }).subscribe({
+      next: (response: any) => {
+        if (response.status === 'success' && response.user) {
+          this.userIdSubject.next(response.user.id);
+        } else {
+          this.tokenService.removeToken();
+          this.userIdSubject.next(null);
+        }
+      },
+      error: () => {
+        this.tokenService.removeToken();
+        this.userIdSubject.next(null);
+      }
+    });
+  }
+
+  login(email: string, password: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/authorization.php`, {
+      params: { email, password }
+    }).pipe(
+      tap((response: any) => {
+        if (response.status === 'success' && response.token) {
+          this.tokenService.setToken(response.token);
+          this.userIdSubject.next(response.user.id);
+        }
+      })
     );
   }
 
-  private handleError(error: any): Observable<never> {
-    let errorMessage = 'Unknown error';
-    if (error.error instanceof ErrorEvent) {
-      // Client-side error
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      // Server-side error
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    console.error(errorMessage);
-    return throwError(() => new Error(errorMessage));
+  register(email: string, password: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/authorization.php`, {
+      email,
+      password
+    });
+  }
+
+  getUsers(): Observable<userInfo> {
+    return this.http.get<userInfo>(`${this.apiUrl}/person.php`);
+  }
+
+  updateUserInfo(userInfo: any): Observable<UserSended> {
+    return this.http.post<UserSended>(`${this.apiUrl}/person.php`, {
+      userInfo
+    });
+  }
+
+  userId(): number | null {
+    return this.userIdSubject.value;
+  }
+
+  logout(): void {
+    this.tokenService.removeToken();
+    this.userIdSubject.next(null);
   }
 }

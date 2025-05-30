@@ -31,10 +31,11 @@ try {
 
     switch($method) {
         case 'POST':
+            
             // Создание новой задачи
             function getInputData() {
                 $jsonInput = json_decode(file_get_contents('php://input'), true);
-                
+              
                 // Если есть JSON-данные, используем их
                 if ($jsonInput !== null) {
                     // Проверяем, находятся ли данные внутри поля userInfo

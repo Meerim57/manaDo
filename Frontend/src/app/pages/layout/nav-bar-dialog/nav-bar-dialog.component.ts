@@ -45,7 +45,7 @@ export class NavBarDialogComponent implements OnInit {
   ) {
     this.taskForm = this.fb.group({
       name: '',
-      status: '',
+      status: 'Новое',
       description: '',
       assignee: '',
       deadline: ''
