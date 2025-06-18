@@ -5,8 +5,9 @@
     <div class="right-part">
         <button class="create-btn" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="openDialog()">Создать</button>
         <div class="img-content" routerLink="/profile">
-            
-            <img class="avatar" src="/assets/avatar.jpg" alt="your picture">
+            <img class="avatar" 
+                 [src]="userInfo()?.avatar ? 'http://localhost:8000/uploads/avatars/' + userInfo()?.avatar : 'assets/default-avatar.png'" 
+                 alt="your picture">
         </div>
     </div>
 </div>

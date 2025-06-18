@@ -107,7 +107,7 @@ try {
                 $stmt->execute([$_GET['id']]);
                 $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             } else {*/
-                $stmt = $pdo->query("SELECT id, firstName, lastname, email, position, stack FROM user_authorization");
+                $stmt = $pdo->query("SELECT id, firstName, lastname, email, position, stack, avatar FROM user_authorization");
                 $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             //}
             
@@ -122,7 +122,8 @@ try {
                         'lastName' => ($user['lastname']),
                         'email' => $user['email'],
                         'position' => $user['position'],
-                        'stack' => $stack
+                        'stack' => $stack,
+                        'avatar' => $user['avatar']
                     ]
                 ];
             }

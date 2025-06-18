@@ -5,6 +5,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { CommonModule } from '@angular/common';
 import { UsersService } from 'src/app/service/users.service';
 import { AuthService, UserFullInfo } from 'src/app/service/auth.service';
+import { HttpClient } from '@angular/common/http';
 
 export interface UserInfo {
   firstName: string,
@@ -38,6 +39,7 @@ export class PersonInfoComponent implements OnInit {
   userInfo = signal<UserFullInfo | null>(null);
   profileForm: FormGroup;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+  http = inject(HttpClient);
 
   
   fields: FieldType[] = [
@@ -95,10 +97,31 @@ export class PersonInfoComponent implements OnInit {
   }
 
   onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-        const file = input.files[0];
-        console.log('Selected file:', file);
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('avatar', file);
+      formData.append('userId', this.userService.userId().toString());
+
+      this.http.post('http://localhost:8000/User/upload_avatar.php', formData).subscribe({
+        next: (response: any) => {
+          if (response.status === 'success') {
+            this.userInfo.update(info => {
+              if (info) {
+                return { ...info, avatar: response.avatarPath };
+              }
+              return info;
+            });
+          }
+        },
+        error: (error) => {
+          console.error('Error uploading avatar:', error);
+        }
+      });
     }
-}
+  }
+
+  triggerFileInput(): void {
+    this.fileInput.nativeElement.click();
+  }
 }

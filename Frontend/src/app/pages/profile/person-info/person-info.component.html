@@ -4,27 +4,21 @@
     </a>
     <h1 class="panel-name">Профиль</h1>
 </div>
-<div class="avatar-cont">
-  <ng-container *ngIf="true">
-      <div class="avatar-background">
-          <img class="avatar-img" src="/assets/avatar.jpg" alt="your avatar">
+<div class="profile-container">
+  <div class="avatar-section">
+    <div class="avatar-container" (click)="triggerFileInput()">
+      <img [src]="userInfo()?.avatar ? 'http://localhost:8000/uploads/avatars/' + userInfo()?.avatar : 'assets/default-avatar.png'" 
+           alt="Avatar" 
+           class="avatar-image">
+      <div class="avatar-overlay">
+        <mat-icon>photo_camera</mat-icon>
       </div>
-  </ng-container>
-  <ng-container *ngIf="false">
-      <div class="default-avatar-background">
-        <img class="avatar-img" src="/assets/no-avatar.jpg" alt="your avatar">
-      </div>
-      <div class="default-txt" (click)="openFileInput()">
-        Нажмите чтобы загрузить свое фото
-      </div>
-  </ng-container>
-  <input
-        type="file"
-        accept="image/*"
-        style="display: none;"
-        #fileInput
-        (change)="onFileSelected($event)"
-    />
+    </div>
+    <input #fileInput type="file" 
+           accept="image/*" 
+           (change)="onFileSelected($event)" 
+           style="display: none">
+  </div>
 </div>
 <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="personal-info-cont">
     <div class="field-cont" *ngFor="let field of fields">

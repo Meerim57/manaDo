@@ -155,7 +155,7 @@ try {
             }
         } elseif (isset($_GET['id'])) {
             $id = $_GET['id'];
-            $stmt = $pdo->prepare("SELECT id, firstName, lastname, email, position, stack FROM user_authorization WHERE id = ?");
+            $stmt = $pdo->prepare("SELECT id, firstName, lastname, email, position, stack, avatar FROM user_authorization WHERE id = ?");
             $stmt->execute([$id]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
             

@@ -1,8 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { Router, RouterModule  } from '@angular/router';
-import { TeamMember, UsersService } from 'src/app/service/users.service';
+import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { TeamMember, UsersService } from 'src/app/service/users.service';
 
 @Component({
   selector: 'app-team',
@@ -15,22 +15,27 @@ import { CommonModule } from '@angular/common';
     CommonModule
   ]
 })
-export class TeamComponent implements OnInit {
-  usersService = inject(UsersService);
+export class TeamComponent {
+  private userService = inject(UsersService);
+  private router = inject(Router);
   teamMembers: TeamMember[] = [];
-  router = inject(Router);
 
-  ngOnInit(): void {
-    this.usersService.getUsers().subscribe({
-      next: (users) => {
-        this.teamMembers = users.teamMembers;
+  constructor() {
+    this.userService.getUsers().subscribe({
+      next: (data) => {
+        this.teamMembers = data.teamMembers;
+      },
+      error: () => {
+        console.log('error');
       }
-    })
+    });
   }
 
   navigateToStatisticPage(member: TeamMember) {
-    this.router.navigate(['/statistic'], {
-      state: { member: member }
-    });
+    this.router.navigate(['/statistic'], { state: { memberData: member } });
+  }
+
+  navigateToBoard(member: TeamMember) {
+    this.router.navigate(['/board'], { queryParams: { userId: member.id } });
   }
 }

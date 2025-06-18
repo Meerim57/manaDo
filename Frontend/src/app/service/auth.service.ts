@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 
 interface User {
@@ -20,6 +20,7 @@ export interface UserFullInfo {
   lastName: string;
   position: string;
   firstName: string;
+  avatar?: string;
 }
 
 interface RegisterResponse {
@@ -42,6 +43,8 @@ export class AuthService {
     'Content-Type': 'application/json',
     'Accept': 'application/json'
   });
+
+  userInfo = signal<UserFullInfo | null>(null);
 
   constructor(private http: HttpClient) { }
 
